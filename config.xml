@@ -1,7 +1,7 @@
-  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.effit.app" version="1.0.8">
+  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.effit.app" version="2.0.0">
   <name>EFFIT</name>
   <description>Con EFFIT, olvida el dinero en tus eventos. Paga todo con tu celular.</description>
-  <author href="http://www.effitapp.com" email="info@effitapp.com">EFFIT</author>
+  <author href="http://www.effitapp.com" email="effit@effitapp.com">EFFIT</author>
   <content src="index.html"/>
   <preference name="phonegap-version" value="cli-6.0.0" />
   <preference name="permissions" value="none"/>
@@ -45,7 +45,6 @@
   <plugin name="cordova-plugin-globalization"/>
   <plugin name="cordova-plugin-inappbrowser"/>
   <plugin name="cordova-plugin-media"/>
-  <plugin spec="https://github.com/EddyVerbruggen/VideoCapturePlus-PhoneGap-Plugin.git" source="git" />
   <plugin spec="https://github.com/macdonst/TelephoneNumberPlugin.git" source="git" />
   <plugin spec="https://github.com/phonegap-build/PushPlugin.git" source="git" />
   <plugin name="phonegap-plugin-barcodescanner" />
@@ -128,7 +127,7 @@
     <param name="ios-package" value="CDVStatusBar" onload="true" />
   </feature>
 
-<gap:config-file platform="ios" parent="LSApplicationQueriesSchemes" overwrite="true">
+<config-file platform="ios" parent="LSApplicationQueriesSchemes" overwrite="true">
     <array>
         <string>fbapi</string>
         <string>fbapi20130214</string>
@@ -144,7 +143,7 @@
         <string>fbauth2</string>
         <string>fb-messenger-api20140430</string>
     </array>
-</gap:config-file>
+</config-file>
     <platform name="ios">
         <config-file target="*-Info.plist" parent="CFBundleDevelopmentRegion">
             <array>
