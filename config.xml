@@ -3,7 +3,7 @@
   <description>Con EFFIT, olvida el dinero en tus eventos. Paga todo con tu celular.</description>
   <author href="http://www.effitapp.com" email="info@effitapp.com">EFFIT</author>
   <content src="index.html"/>
-  <preference name="phonegap-version" value="cli-5.2.0" />
+  <preference name="phonegap-version" value="cli-6.0.0" />
   <preference name="permissions" value="none"/>
   <preference name="orientation" value="portrait"/>
   <preference name="target-device" value="handset"/>
