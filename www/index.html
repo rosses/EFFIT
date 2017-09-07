@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>EFFIT</title> 
+    <meta name="viewport" content="width=375, user-scalable=no" />
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/fonts.css"/>
+    <link rel="stylesheet" type="text/css" href="css/extras.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="css/jquery.scrollz.css"/>-->
+    <link rel="stylesheet" type="text/css" href="css/xpull.css"/>
+    <link rel="stylesheet" type="text/css" href="css/slick.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="css/jquery.switchButton.css"/>-->
+    <link rel="stylesheet" type="text/css" href="open-sans.css"/>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="js/jquery-ui.min.js"></script>-->
+    <script type="text/javascript" src="js/jquery.mobile.custom.min.js"></script>
+    <script type="text/javascript" src="js/jquery.imagesLoaded.js"></script>
+    <!--<script type="text/javascript" src="js/jquery.switchButton.js"></script>-->
+    <script type="text/javascript" src="js/itemslide.min.js"></script>
+    <script type="text/javascript" src="js/jquery.touchSwipe.js"></script>
+    <!--<script type="text/javascript" src="js/jquery.pull-to-refresh.js"></script>-->
+    <!--<script type="text/javascript" src="js/jquery.scrollz.min.js"></script>-->
+    <script type="text/javascript" src="js/iscroll.js"></script>
+    <!--<script type="text/javascript" src="js/jquery.tinyscrollbar.min.js"></script>-->
+    <!--<script type="text/javascript" src="js/scrollability.js"></script>-->
+    <script type="text/javascript" src="js/xpull.js"></script>
+    <script type="text/javascript" src="js/fastclick.js"></script>
+    <script type="text/javascript" src="js/slick.min.js"></script>
+    <script type="text/javascript" src="js/effit.js"></script>
+    <script type="text/javascript" src="PushNotification.js"></script>
+    <script type="text/javascript" src="js/facebookConnectPlugin.js"></script>
+    <!--<script type="text/javascript" src="openfb.js"></script>-->
+    
+  <script type="text/javascript">
+    var FB_Login_Gift = function() {
+        $("#sys_load").show();
+        if (!window.cordova) {
+            facebookConnectPlugin.browserInit("228801530792772");
+        }
+        facebookConnectPlugin.login( ["email", "user_friends", "public_profile", "user_birthday"], 
+            function (response) {
+                if(response.status === 'connected') {
+                    localStorage.setItem('EFFIT_FACEBOOK', response.authResponse.accessToken);
+                    facebookConnectPlugin.api( "me/?fields=first_name,id,email,last_name,name,picture,birthday,gender", ["user_friends", "email", "public_profile", "user_birthday"],
+                        function (response) { 
+                            $("#sys_load").hide();
+                            $.post(ws+"a=accessToken", { user_id: user_id, hash: localStorage.getItem('EFFIT_FACEBOOK'), name: response.name, id: response.id, picture: 'http://graph.facebook.com/'+response.id+'/picture?width=1000' }, function(xd) {});
+                            getFriends(localStorage.getItem('EFFIT_FACEBOOK'));
+                        },
+                        function (response) { 
+                            console.log(JSON.stringify(response));
+                            $("#sys_load").hide();
+                            err('No es posible conectar con tu cuenta Facebook. Intentalo más tarde');
+                        }); 
+                } else {
+                    console.log(JSON.stringify(response));
+                    $("#sys_load").hide();
+                    err('Tu cuenta de Facebook no ha autorizado EFFIT, debes iniciar la sesión de EFFIT con tu Facebook');
+                } 
+            },
+            function (response) {
+                console.log(JSON.stringify(response));
+                $("#sys_load").hide();
+                err('No fue posible acceder a tu cuenta de Facebook.');
+            });
+    }
+    var FB_Login_Register = function () {
+        $("#sys_load").show();
+        if (!window.cordova) {
+            facebookConnectPlugin.browserInit("228801530792772");
+        }
+        
+        /*
+            Cerrar cuenta Facebook
+        */
+        /*
+        facebookConnectPlugin.getLoginStatus( 
+            function (response) { 
+                console.log('Sesion Facebook: '+response.status); 
+                if (response.status == 'connected') {
+                console.log('cerrar sess fb activa'); 
+                facebookConnectPlugin.logout( 
+                    function (response) { console.log('Cerrado OK:'+JSON.stringify(response)); FB_Login_Register_Go(); },
+                    function (response) { console.log('No cerrado:'+JSON.stringify(response)); FB_Login_Register_Go(); });
+                }
+                else {
+                    FB_Login_Register_Go();    
+                }
+
+            },
+            function (response) { 
+                console.log('Registro: Not facebook opened sess'); 
+                FB_Login_Register_Go();
+            });
+        */
+        FB_Login_Register_Go();
+    }
+    var FB_Login_Register_Go = function () {
+        facebookConnectPlugin.login( ["email", "user_friends", "public_profile", "user_birthday"], 
+            function (response) {
+                if(response.status === 'connected') {
+                    localStorage.setItem('EFFIT_FACEBOOK', response.authResponse.accessToken);
+                    facebookConnectPlugin.api( "me/?fields=first_name,id,email,last_name,name,picture,birthday,gender", ["user_friends", "email", "public_profile", "user_birthday"],
+                        function (response) { 
+                            $.post(ws+"a=consultaFBID", {id: response.id, email: response.email, hash: localStorage.getItem('EFFIT_FACEBOOK')}, function(data2) {
+                                if (data2.res=="ok") {
+                                  $("#newPerfilFoto").attr('src','http://graph.facebook.com/'+response.id+'/picture?width=1000'); //data.picture.data.url
+                                  $("#newPerfilFotoFbk").val('http://graph.facebook.com/'+response.id+'/picture?width=1000'); //data.picture.data.url
+                                  $("#newPerfilIdFbk").val(response.id);
+                                  $("#newPerfilNameFbk").val(response.name);
+                                  $("#newPerfilTokenFbk").val(localStorage.getItem('EFFIT_FACEBOOK'));
+                                  $(".login").animate({marginBottom: "-272px"},500,function(){
+                                    $("#registro_nombre").val(response.first_name);
+                                    $("#registro_apellido").val(response.last_name);
+                                    $("#registro_email").val(response.email);
+                                    if (response.birthday) {
+                                      var spl = response.birthday.split('/');
+                                      $("#registro_nac_dia").val(spl[1]);
+                                      $("#registro_nac_mes").val(spl[0]);
+                                      $("#registro_nac_ano").val(spl[2]);
+                                    }
+                                    if (response.gender) {
+                                      if (response.gender == "male") {
+                                        $("[data-val='M']").addClass('activo');
+                                        $("#registro_sexo").val('M');
+                                      } 
+                                      if (response.gender == "female") {
+                                        $("[data-val='F']").addClass('activo');
+                                        $("#registro_sexo").val('F');
+                                      } 
+                                    }
+                                    $("#sys_load").hide();
+                                    $(".registro").animate({marginBottom: 0},800,function(){});
+
+                                  });
+                                } else {
+                                  forceLogin(response.id);
+                                  $("#sys_load").hide();
+                                }
+                              },"json");
+                        },
+                        function (response) { 
+                            console.log(JSON.stringify(response));
+                            $("#sys_load").hide();
+                            err('Tu cuenta Facebook no ha autorizado EFFIT, debes iniciar la sesión de EFFIT con tu Facebook');
+                        }); 
+                } else {
+                    console.log(JSON.stringify(response));
+                    $("#sys_load").hide();
+                    err('Tu cuenta de Facebook no ha autorizado EFFIT, debes iniciar la sesión de EFFIT con tu Facebook');
+                } 
+            },
+            function (response) {
+                console.log(JSON.stringify(response));
+                $("#sys_load").hide();
+                err('No fue posible acceder a tu cuenta de Facebook.');
+            });
+    }
+    
+    var showDialog = function () { 
+        facebookConnectPlugin.showDialog( { method: "feed" }, 
+            function (response) { alert(JSON.stringify(response)) },
+            function (response) { alert(JSON.stringify(response)) });
+    }
+    
+    var apiTest = function () { 
+        facebookConnectPlugin.api( "me/?fields=id,email,gender", ["user_birthday"],
+            function (response) { alert(JSON.stringify(response)) },
+            function (response) { alert(JSON.stringify(response)) }); 
+    }
+    var logPurchase = function () {
+        facebookConnectPlugin.logPurchase(1.99, "USD",
+            function (response) { alert(JSON.stringify(response)) },
+            function (response) { alert(JSON.stringify(response)) });
+    }
+    var logEvent = function () {
+        // For more information on AppEvent param structure see
+        // https://developers.facebook.com/docs/ios/app-events
+        // https://developers.facebook.com/docs/android/app-events
+        facebookConnectPlugin.logEvent("Purchased",
+            {
+                NumItems: 1,
+                Currency: "USD",
+                ContentType: "shoes",
+                ContentID: "HDFU-8452"
+            }, null,
+            function (response) { alert(JSON.stringify(response)) },
+            function (response) { alert(JSON.stringify(response)) });
+    }
+    var getAccessToken = function () { 
+        facebookConnectPlugin.getAccessToken( 
+            function (response) { alert(JSON.stringify(response)) },
+            function (response) { alert(JSON.stringify(response)) });
+    }
+    
+    var getStatus = function () { 
+        facebookConnectPlugin.getLoginStatus( 
+            function (response) { console.log('LOGIN STATUS: ' + JSON.stringify(response)) },
+            function (response) { console.log('LOGIN STATUS FAIL: ' + JSON.stringify(response)) });
+    }
+    var logout = function () { 
+        facebookConnectPlugin.logout( 
+            function (response) { alert(JSON.stringify(response)) },
+            function (response) { alert(JSON.stringify(response)) });
+    }
+
+    </script>
+
+    <script type="text/javascript">
+
+    function getFriends(token) {
+        /* actualizar amigos desde Facebook */
+        
+        if (token) {
+        facebookConnectPlugin.api( "me/friends/?fields=first_name,id,last_name,middle_name,name,picture&limit=1000", ["user_friends", "email", "public_profile"],
+            function (response) { 
+                $.post(ws+"a=loadFBFriends", { jsonFriends: response, user_id: user_id },function() {
+                  $("#sys_load3").hide();
+                  regalarMetodo(token, user_id); 
+                },"json");
+            },
+            function (response) { 
+                regalarMetodo(token, user_id); 
+            }); 
+        }
+        else {
+            /* no hay token, regalar igual tirara login */
+            regalarMetodo("", user_id);
+        }
+    }
+
+    
+
+    var pushNotification;
+
+    function onDeviceReadyPush() {
+        //alert('<li>deviceready event received</li>');
+        try {
+            pushNotification = window.plugins.pushNotification;
+            //alert('<li>registering ' + device.platform + '</li>');
+            if (device.platform == 'android' || device.platform == 'Android' ||
+                device.platform == 'amazon-fireos') {
+                pushNotification.register(successHandlerPush, errorHandlerPush, {
+                    "senderID": "661780372179",
+                    "ecb": "onNotification"
+                }); // required!
+            } else {
+                pushNotification.register(tokenHandlerPush, errorHandlerPush, {
+                    "badge": "true",
+                    "sound": "true",
+                    "alert": "true",
+                    "ecb": "onNotificationAPN"
+                }); // required!
+            }
+        } catch (err) {
+            //txt = "There was an error on this page.\n\n";
+            //txt += "Error: " + err.message + "\n\n";
+            //alert(txt);
+        }
+    }
+
+    // handle APNS notifications for iOS
+    function onNotificationAPN(e) {
+        if (e.alert) {
+        	
+            console.log('push-notification: ' + e.alert + '');
+
+            // showing an alert also requires the org.apache.cordova.dialogs plugin
+            /*navigator.notification.alert(e.alert);*/
+        }
+
+        if (e.sound) {
+            // playing a sound also requires the org.apache.cordova.media plugin
+            var snd = new Media(e.sound);
+            snd.play();
+        }
+
+        if (e.badge) {
+            pushNotification.setApplicationIconBadgeNumber(successHandlerPush, e.badge);
+        }
+    }
+
+    // handle GCM notifications for Android
+    function onNotification(e) {
+        //alert('<li>EVENT -> RECEIVED:' + e.event + '</li>');
+
+        switch (e.event) {
+            case 'registered':
+                if (e.regid.length > 0) {
+                    //alert('<li>REGISTERED -> REGID:' + e.regid + "</li>");
+                    // Your GCM push server needs to know the regID before it can push to this device
+                    // here is where you might want to send it the regID for later use.
+                    console.log("regID = " + e.regid);
+                }
+                break;
+
+            case 'message':
+                // if this flag is set, this notification happened while we were in the foreground.
+                // you might want to play a sound to get the user's attention, throw up a dialog, etc.
+                if (e.foreground) {
+                    //alert('<li>--INLINE NOTIFICATION--' + '</li>');
+
+                    // on Android soundname is outside the payload. 
+                    // On Amazon FireOS all custom attributes are contained within payload
+                    var soundfile = e.soundname || e.payload.sound;
+                    // if the notification contains a soundname, play it.
+                    // playing a sound also requires the org.apache.cordova.media plugin
+                    var my_media = new Media("/android_asset/www/" + soundfile);
+
+                    my_media.play();
+                } else { // otherwise we were launched because the user touched a notification in the notification tray.
+                    if (e.coldstart) {
+                        //alert('<li>--COLDSTART NOTIFICATION--' + '</li>');
+                    }
+                    else {
+                        //alert('<li>--BACKGROUND NOTIFICATION--' + '</li>');
+                    }
+                }
+
+                //alert('<li>MESSAGE -> MSG: ' + e.payload.message + '</li>');
+                //android only
+                //alert('<li>MESSAGE -> MSGCNT: ' + e.payload.msgcnt + '</li>');
+                //amazon-fireos only
+                //alert('<li>MESSAGE -> TIMESTAMP: ' + e.payload.timeStamp + '</li>');
+                break;
+
+            case 'error':
+                //alert('<li>ERROR -> MSG:' + e.msg + '</li>');
+                break;
+
+            default:
+                //alert('<li>EVENT -> Unknown, an event was received and we do not know what it is</li>');
+                break;
+        }
+    }
+    function tokenHandlerPush (result) {
+        //alert('<li>token: '+ result +'</li>');
+        // IOS
+        $.post(ws + "a=setMyToken", { token: result, user_id: user_id, platform: device.platform });
+
+        // Your iOS push server needs to know the token before it can push to this device
+        // here is where you might want to send it the token for later use.
+    }
+
+    function successHandlerPush (result) {
+        //alert('<li>success:'+ result +'</li>');
+        // ANDROID
+        $.post(ws + "a=setMyToken", { token: result, user_id: user_id, platform: device.platform });
+    }
+
+    function errorHandlerPush (error) {
+        //alert('<li>error:'+ error +'</li>');
+    }
+
+    function errorHandlerPush(error) {
+        console.log(error.message);
+    }
+    </script>
+  </head>
+  <body> <!--oncontextmenu="return false" ondragstart="return false" onselectstart="return false"-->
+  <div id="fb-root"></div>
+  <div class="supernegro"></div>
+  <div class="layout" id="intro" style="display: ; z-index: 20;">
+    <div class="loading_home ls">INICIANDO</div>
+
+    <div class="login">
+      <div class="in mt10">
+        <div class="box">
+          <div class="in ls">
+            <a href="javascript:;" id="initFacebookReg"><i class="fa fa-facebook-f circulo"></i> INICIAR SESIÓN CON FACEBOOK</a>
+          </div>
+        </div>
+        <!--
+        <div class="box">
+          <div class="in ls">
+            <a href="#"><i class="fa fa-twitter circulo"></i> INICIAR SESIÓN CON TWITTER</a>
+          </div>
+        </div>
+        -->
+        <hr color="#1D1D1C" noshade="noshade" size="1" />
+        <input type="text" id="login_email" value="" placeholder="Ingresa tu correo" />
+        <div class="m">
+          <div class="l w60">
+            <input type="password" id="login_password" value="" placeholder="Ingresa tu password" />
+          </div>
+          <div class="r w40 tr">
+            <button class="btn w90 o5" disabled="disabled" id="login_enter"><i class="fa fa-lg fa-check"></i> ENTRAR</button>
+          </div>
+          <div class="c"></div>
+        </div>
+        
+        <a id="btn_lostpass" class="login_link ls" style="display: block;">Recuperar Clave</a>
+        <a id="btn_registro" class="login_link ls">¿No te has registrado? Toca aquí</a>
+      </div>
+    </div>
+
+    <div class="topbar">
+      <div class="m">
+        <div align="center"><img src="img/effit.png" /></div>
+      </div>
+      
+    </div>
+
+    <div class="empleado_dashboard" style="display:none;">
+      <h2 id="empleado_saludo"></h2>
+      <br />
+      <hr color="gray" noshade="noshade" size="1" />
+      <br />
+      <div class="in">
+        <div id="empleado_resumen">
+          Perfil activado:
+          <br />
+          <span id="empleado_permiso"></span>
+          <br /><br />
+          Autorizado por:
+          <br />
+          <span id="empleado_boss"></span>
+          <br />
+          <br />
+        </div>
+        <div id="empleado_resultado" align="center">
+
+        </div>
+        <hr color="gray" noshade="noshade" size="1" />
+        <br />
+        <div class="campo">
+          <div class="campo_l">
+            Encender luz
+          </div>
+          <div class="campo_r control_empleado_luz">
+            <!--<input type="checkbox" data-role="none" id="empleado_luz" />-->
+            <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                <label class="onoffswitch-label" id="empleado_luz" for="myonoffswitch"></label>
+            </div>
+          </div>
+        </div>
+        <button class="bigbtn" id="leer_qr">Escanear QR</button>
+        <button class="bigbtn2" id="cerrar_sess_empleado">Cerrar sesión</button>
+      </div>
+    </div>
+
+    <div class="registro secc">
+      <header>
+      	<div class="profile">
+      		<img src="img/no-profile_hd.png" id="newPerfilFoto">
+          <input type="file" id="newPerfilFotoFile" name="newPerfilFotoFile" style="display:none;" />
+      	</div>      	
+      </header>
+      <div class="scroll scroll65 in mt10">
+        <form id="regform" method="POST" action="">
+        <h4>INFORMACIÓN PERSONAL</h4>
+        <input type="hidden" id="newPerfilFotoTemp" name="newPerfilFotoTemp" style="display:none;" />
+        <input type="hidden" id="newPerfilFotoFbk" name="newPerfilFotoFbk" style="display:none;" />
+        <input type="hidden" id="newPerfilIdFbk" name="newPerfilIdFbk" style="display:none;" />
+        <input type="hidden" id="newPerfilNameFbk" name="newPerfilNameFbk" style="display:none;" />
+        <input type="hidden" id="newPerfilTokenFbk" name="newPerfilTokenFbk" style="display:none;" />
+        <div class="inp">
+          <div class="i"><i class="fa fa-user fa-lg"></i></div>
+          <input data-role="none" type="text" name="registro_nombre" id="registro_nombre" value="" placeholder="Nombre" />
+          <div class="c"></div>
+        </div>
+        
+        <div class="inp">
+          <div class="i"><i class="fa fa-user-plus fa-lg"></i></div>
+          <input data-role="none" type="text" name="registro_apellido" id="registro_apellido" value="" placeholder="Apellido" />
+          <div class="c"></div>
+        </div>
+
+        <div class="inp">
+          <div class="i"><i class="fa fa-birthday-cake fa-lg"></i></div>
+          <input data-role="none" type="tel" style="padding-left: 10px; text-align:right; width: 40px;" maxlength="2" inputmode="numeric" name="registro_nac_dia" id="registro_nac_dia" value="" placeholder="Día" />
+          <div class="i">/</div>
+          <input data-role="none" type="tel" style="width: 45px;" maxlength="2" inputmode="numeric" name="registro_nac_mes" id="registro_nac_mes" value="" placeholder="Mes" />
+          <div class="i">/</div>
+          <input data-role="none" type="tel" style="width: 50px;" maxlength="4" inputmode="numeric" name="registro_nac_ano" id="registro_nac_ano" value="" placeholder="Año" />
+          <div class="c"></div>
+        </div>
+
+        <div class="inp">
+          <div class="i"><i class="fa fa-venus-mars fa-lg"></i></div>
+          <div class="sex" data-val="M"><i class="fa fa-mars fa-lg"></i> Hombre</div>
+          <div class="sex" data-val="F"><i class="fa fa-venus fa-lg"></i> Mujer</div>
+          <input type="hidden" id="registro_sexo" name="registro_sexo" value="" />
+          <div class="c"></div>
+        </div>
+
+        <div class="inp">
+          <div class="i"><i class="fa fa-globe fa-lg"></i></div>
+          <select data-role="none" id="registro_comuna" name="registro_comuna"></select>
+          <div class="c"></div>
+        </div>
+
+        <div class="inp">
+          <div class="i"><i class="fa fa-envelope fa-lg"></i></div>
+          <input type="email" id="registro_email" name="registro_email" value="" placeholder="Email" />
+          <div class="c"></div>
+        </div>
+
+        <div class="inp">
+          <div class="i"><i class="fa fa-key fa-lg"></i></div>
+          <input type="password" id="registro_clave" name="registro_clave" placeholder="Escriba una clave para tu cuenta" />
+          <div class="c"></div>
+        </div>
+
+        <div class="inp">
+          <div class="i"><i class="fa fa-key fa-lg"></i></div>
+          <input type="password" id="registro_clave2" name="registro_clave2" placeholder="Repite la clave" />
+          <div class="c"></div>
+        </div>
+
+        <div class="x">
+          <input type="checkbox" id="registro_terminos" name="registro_terminos" value="1" /><a href="#" id="verTerminos">Acepto los términos y condiciones</a>
+          <div class="c"></div>
+        </div>
+
+        </form>
+
+        <button data-role="none" class="bigbtn" id="crearcuenta"><i class="fa fa-lg fa-plus"></i> CREAR MI CUENTA</button>
+        <button data-role="none" class="bigbtn2" id="cancela_crearcuenta"><i class="fa fa-lg fa-chevron-left"></i> REGRESAR</button>
+        <br /><br />
+      </div>
+    </div>
+
+    <div id="layer_terminos" style="display: none;">
+      <div id="layer_terminos_cont">
+      </div>
+      <div id="layer_terminos_foot">
+          <button class="boton_volver w31" id="close_terminos" style="margin-right: 1%; margin-top: 0px; margin-bottom: 10px;"><i class="fa fa-lg fa-arrow-left"></i> VOLVER</button>
+      </div>
+    </div>
+
+    <div class="lostpass secc">
+      <div class="scroll scroll65 in mt10">
+        <form id="lostpassform" method="POST" action="">
+        <h4>RECUPERA TU CLAVE</h4>
+        <p>Ingresa tu correo electrónico para que te envíemos una nueva clave.</p>
+        
+        <div class="inp">
+          <div class="i"><i class="fa fa-envelope fa-lg"></i></div>
+          <input type="email" id="lostpass_email" name="lostpass_email" value="" placeholder="Email" />
+          <div class="c"></div>
+        </div>
+        </form>
+
+        <button data-role="none" class="bigbtn" id="lostpass"><i class="fa fa-lg fa-plus"></i> RECUPERAR CLAVE</button>
+        <button data-role="none" class="bigbtn2" id="cancela_lostpass"><i class="fa fa-lg fa-chevron-left"></i> REGRESAR</button>
+        <br /><br />
+      </div>
+    </div>
+	 
+  </div>
+
+  <div class="layout" id="home" style="display: ; z-index: 10;">
+
+  <div id="sys_load" style="display: none;">
+    <div class="loading_in ls"><span style="margin-left: -5px;">CARGANDO</span></div>
+  </div>
+  <div id="sys_load2" style="display: none;">
+    <div class="loading_in ls"><span style="margin-left: -5px;">CARGANDO</span></div>
+  </div>
+  <div id="sys_load3" style="display: none;">
+    <div class="loading_in ls"><span style="margin-left: -5px;">CARGANDO AMIGOS</span></div>
+  </div>
+  <div id="sys_load4" style="display: none;">
+    <div class="loading_in ls"><span style="margin-left: -5px;">CARGANDO IMAGEN</span></div>
+  </div>
+
+
+    <div id="sys_top">
+      <div class="m">
+        <div align="center">
+          <img src="img/effit.png" />
+        </div> 
+      </div>
+    </div>
+    <div id="sys_medio"> 
+      <div id="sys_medio_ul" class="scroll">
+          <!--
+          <li id="tab0" class="scroll"></li>
+          <li id="tab1" class=""></li>
+          <li id="tab2" class="scroll"></li>
+          <li id="tab3" class="scroll">TICKETS</li>
+          <li id="tab4" class="scroll">PAGO</li>
+          <li id="tab5" class="scroll">HISTORIAL</li>
+          --> 
+          <div id="tab0">
+          	<div id="load0" class="loaders" style="display: none;"><div class="loading_in ls"><span style="margin-left: -5px;">CARGANDO</span></div></div>
+          	<div id="tab0_in"></div>
+          </div>
+          <div id="tab1">
+          	<div id="load1" class="loaders" style="display: none;"><div class="loading_in ls"><span style="margin-left: -5px;">CARGANDO</span></div></div>
+          	<div id="tab1_in"></div>
+          </div>
+          <div id="tab2">
+          	<div id="tab2_in">
+	          	<div id="load2" class="loaders" style="display: none;"><div class="loading_in ls"><span style="margin-left: -5px;">CARGANDO</span></div></div>
+	            <div id="wrapper2">
+	              <ul id="tab2_in_ul">
+	                
+	              </ul>
+	            </div>
+            </div>
+          </div>
+          <div id="tab3">
+			<div id="load3" class="loaders" style="display: none;"><div class="loading_in ls"><span style="margin-left: -5px;">CARGANDO</span></div></div>
+          	<div id="tab3_in"></div>
+          </div>
+          <div id="tab4">
+          	<div id="load4" class="loaders" style="display: none;"><div class="loading_in ls"><span style="margin-left: -5px;">CARGANDO</span></div></div>
+          	<div id="tab4_in"></div>
+          </div>
+          <div id="tab5">
+          	<div id="load5" class="loaders" style="display: none;"><div class="loading_in ls"><span style="margin-left: -5px;">CARGANDO</span></div></div>
+          	<div id="tab5_in"></div>
+          </div>
+      </div>
+
+
+      <div id="layer_onec" style="display: none;">
+        <div id="layer_onec_cont">
+        </div>
+        <div id="layer_onec_foot">
+            <button class="boton_volver w31" id="close_onec" style="margin-left: 1%; margin-top: 0px; margin-bottom: 10px;"><i class="fa fa-lg fa-arrow-left"></i> VOLVER</button>
+        </div>
+      </div>
+      <div id="layer_evento" style="display: none;">
+        <div id="layer_evento_cont">
+        </div>
+        <div id="layer_evento_foot">
+            <button class="boton_volver w31" id="close_layer" style="margin-left: 1%; margin-top: 0px; margin-bottom: 10px;"><i class="fa fa-lg fa-arrow-left"></i> VOLVER</button>
+            <button class="boton_comprar w31 r" id="opComprar" data-evento="0" style="margin-right: 1%; margin-top: 0px; margin-bottom: 10px;">COMPRAR <i class="fa fa-lg fa-shopping-cart"></i></button>
+            <button class="boton_regalar w31 r" id="opRegala" data-evento="0" style="margin-left: 2%; margin-right: 2%; margin-top: 0px; margin-bottom: 10px;">REGALAR <i class="fa fa-lg fa-gift"></i></button>
+        </div>
+      </div>
+      <div id="layer_comprar" style="display: none;">
+      	<form name="compraForm" id="compraForm" style="margin:0;padding:0;" />
+	        <div id="layer_comprar_cont">
+	        </div>
+        </form>
+        <div id="layer_comprar_foot">
+            <button class="boton_volver w40" id="close_compra" style="margin-left: 10px; margin-top: 0px; margin-bottom: 10px;"><i class="fa fa-lg fa-arrow-left"></i> EVENTO</button>
+            <button class="boton_comprar w40 r" id="confirmarCompra" data-evento="0" style="margin-right: 10px; margin-top: 0px; margin-bottom: 10px;">COMPRAR AHORA</button>
+        </div>
+      </div>
+      <div id="layer_regalar" style="display: none;">
+        <form name="regalaForm" id="regalaForm" style="margin:0;padding:0;" />
+          <div id="layer_regalar_cont">
+          </div>
+        </form>
+        <div id="layer_regalar_foot">
+            <button class="boton_volver w40" id="close_regalo" style="margin-left: 10px; margin-top: 0px; margin-bottom: 10px;"><i class="fa fa-lg fa-arrow-left"></i> EVENTO</button>
+            <button class="boton_regalar w40 r o5" disabled="disabled" id="confirmarRegalo" data-evento="0" style="margin-right: 10px; margin-top: 0px; margin-bottom: 10px;">CONFIRMAR <i class="fa fa-lg fa-gift"></i></button>
+        </div>
+      </div>
+    </div>
+    
+    <div id="sys_foot">
+      <div id="sys_foot_ul">
+          <div id="menu_tab0">PERFIL</div>
+          <div id="menu_tab1" style="line-height: 15px;" class="naranjito">DESTACADOS PARA TI</div>
+          <div id="menu_tab2">EVENTOS</div>
+          <div id="menu_tab3">TICKETS</div>
+          <div id="menu_tab4">PAGO&nbsp;</div>
+          <div id="menu_tab5">HISTORIAL</div>
+      </div>
+      <div class="cen"></div>
+    </div>
+    
+  </div>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBh8EFyNSPsuF0PupyRmV2F_DTNSBU5rso&libraries=places" async defer></script>
+  </body>
+</html>
