@@ -52,9 +52,12 @@
   <plugin name="phonegap-plugin-barcodescanner" />
   <plugin name="cordova-plugin-whitelist" source="npm" />
   <plugin name="cordova-plugin-app-version" />
-  <plugin name="phonegap-facebook-plugin">
-      <param name="APP_ID" value="228801530792772" />
-      <param name="APP_NAME" value="EFFIT" />
+
+  <plugin name="cordova-plugin-facebook">
+    <param name="FACEBOOK_APP_ID" value="228801530792772" />
+    <param name="APP_ID" value="228801530792772" />
+    <param name="FACEBOOK_DISPLAY_NAME" value="EFFIT" />
+    <param name="APP_NAME" value="EFFIT" />
   </plugin>
 
   <!-- ICONOS -->
