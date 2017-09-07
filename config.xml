@@ -50,7 +50,7 @@
   <plugin name="phonegap-plugin-barcodescanner" />
   <plugin name="cordova-plugin-whitelist" source="npm" />
   <plugin name="cordova-plugin-app-version" />
-  <plugin name="phonegap-facebook-plugin" spec="0.9.0">
+  <plugin name="phonegap-facebook-plugin">
       <param name="APP_ID" value="228801530792772" />
       <param name="APP_NAME" value="EFFIT" />
   </plugin>
