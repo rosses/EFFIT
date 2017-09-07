@@ -1,0 +1,26 @@
+#pull, #pull2 {
+    line-height: 60px;
+    height: 60px;
+    text-align: center;
+    background-color: #000000;
+    width: 100%;
+    font-weight: bold;
+    font-family: "Open Sans";
+    font-size: 12px;
+    color: #CCCCCC;
+    background-image: url(../img/arrow.png);
+    background-repeat: no-repeat;
+    background-size: 10px 23px;
+    background-position: 35px;
+    z-index: 0;
+}
+#pull.visible, #pull2.visible {
+    background-image: url(../img/arrow_up.png);
+    background-size: 10px 23px;
+    background-position: 35px; 
+}
+#pull.refresh, #pull2.refresh {
+    background-image: url(../img/spinner.gif);
+    background-size: 16px 16px;
+    background-position: 35px; 
+}

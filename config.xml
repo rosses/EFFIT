@@ -1,0 +1,225 @@
+  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.effit.app" version="1.0.8">
+  <name>EFFIT</name>
+  <description>Con EFFIT, olvida el dinero en tus eventos. Paga todo con tu celular.</description>
+  <author href="http://www.effitapp.com" email="info@effitapp.com">EFFIT</author>
+  <content src="index.html"/>
+  <preference name="phonegap-version" value="cli-5.2.0" />
+  <preference name="permissions" value="none"/>
+  <preference name="orientation" value="portrait"/>
+  <preference name="target-device" value="handset"/>
+  <preference name="fullscreen" value="false"/>
+  <preference name="android-windowSoftInputMode" value="stateHidden|adjustResize" />
+  <preference name="webviewbounce" value="false"/>
+  <preference name="prerendered-icon" value="true"/>
+  <preference name="stay-in-webview" value="false"/>
+  <preference name="UIWebViewBounce" value="false" />
+  <preference name="ios-statusbarstyle" value="default"/>
+  <preference name="StatusBarStyle" value="lightcontent" />
+  <preference name="DisallowOverscroll" value="true" />
+  <preference name="detect-data-types" value="true"/>
+  <preference name="exit-on-suspend" value="false"/>
+  <preference name="SplashScreen" value="none"/>
+  <preference name="disable-cursor" value="false"/>
+  <preference name="android-minSdkVersion" value="15"/>
+  <preference name="android-installLocation" value="auto"/>
+  <preference name="android-build-tool" value="gradle" />
+  <preference name="KeyboardShrinksView" value="false" />
+  <preference name="AutoHideSplashScreen" value="false" />
+  <preference name="deployment-target" value="8.0" />
+  <preference name="EnableViewportScale" value="true"/>
+  <plugin name="cordova-plugin-battery-status"/>
+  <plugin name="cordova-plugin-camera"/>
+  <plugin name="cordova-plugin-media-capture"/>
+  <plugin name="cordova-plugin-console"/>
+  <plugin name="cordova-plugin-contacts"/>
+  <plugin name="cordova-plugin-device"/>
+  <plugin name="cordova-plugin-device-motion"/>
+  <plugin name="cordova-plugin-device-orientation"/>
+  <plugin name="cordova-plugin-dialogs"/>
+  <plugin name="cordova-plugin-file"/>
+  <plugin name="cordova-plugin-file-transfer"/>
+  <plugin name="cordova-plugin-statusbar" spec="0.1.4" />
+  <plugin name="cordova-plugin-geolocation"/>
+  <plugin name="cordova-plugin-globalization"/>
+  <plugin name="cordova-plugin-inappbrowser"/>
+  <plugin name="cordova-plugin-media"/>
+  <plugin name="nl.x-services.plugins.videocaptureplus" spec="1.2" />
+  <plugin name="com.simonmacdonald.telephonenumber" spec="1.0.0" />  
+  <plugin name="net.roughshod.plugins.barcodescanner" spec="3.0.0" />
+  <plugin name="cordova-plugin-whitelist" source="npm" />
+  <plugin name="uk.co.whiteoctober.cordova.appversion" spec="0.1.4" />
+  <plugin name="com.phonegap.plugins.pushplugin" spec="2.5.0" />
+  <plugin name="com.phonegap.plugins.facebookconnect" spec="0.9.0">
+      <param name="APP_ID" value="228801530792772" />
+      <param name="APP_NAME" value="EFFIT" />
+  </plugin>
+
+  <!-- ICONOS -->
+  <icon src="img/logo.png" />
+  <icon src="res/icon/ios/icon-57.png"            platform="ios"        width="57" height="57" />
+  <icon src="res/icon/ios/icon-72.png"            platform="ios"        width="72" height="72" />
+  <icon src="res/icon/ios/icon-57-2x.png"         platform="ios"        width="114" height="114" />
+  <icon src="res/icon/ios/icon-72-2x.png"         platform="ios"        width="144" height="144" />
+  <icon src="res/icon/ios/icon-120.png"         platform="ios"        width="120" height="120" />
+  <icon src="res/icon/ios/icon-76.png"         platform="ios"        width="76" height="76" />
+  <icon src="res/icon/ios/icon-152.png"         platform="ios"        width="152" height="152" />
+<!--
+  <icon src="ldpi.png"                            platform="android"        qualifier="ldpi" />
+  <icon src="mdpi.png"                            platform="android"        qualifier="mdpi" />
+  <icon src="hdpi.png"                            platform="android"        qualifier="hdpi" />
+  <icon src="xhdpi.png"                           platform="android"        qualifier="xhdpi" />
+  <icon src="xxhdpi.png"                          platform="android"        qualifier="xxhdpi" />
+  <icon src="fr-xxhdpi.png"                       platform="android"        qualifier="fr-xxhdpi" />
+-->
+  
+  <!-- SPLASH SCREEN -->
+  <splash src="res/screen/ios/screen-iphone-portrait.png"         platform="ios"      width="320" height="480" />
+  <splash src="res/screen/ios/screen-iphone-portrait-2x.png"      platform="ios"      width="640" height="960" />
+  <splash src="res/screen/ios/screen-iphone-portrait-568h-2x.png" platform="ios"      width="640" height="1136" />
+  <splash src="res/screen/ios/screen-ipad-landscape.png"      platform="ios"      width="1024" height="768"/>
+  
+  
+  <splash src="ldpi.png" platform="android" qualifier="ldpi" />
+  <splash src="mdpi.png" platform="android" qualifier="mdpi" />
+  <splash src="hdpi.png" platform="android" qualifier="hdpi" />
+  <splash src="xhdpi.png" platform="android" qualifier="xhdpi" />
+  
+  <!--
+  <splash src="fr-xhdpi.png" platform="android" qualifier="fr-xhdpi" />
+  <splash src="portrait-xxhdpi.png" platform="android" qualifier="port-xxhdpi" />
+  <splash src="landscape-xxhdpi.png" platform="android" qualifier="land-xxhdpi" />
+  -->
+  
+  <!-- REGLAS --> 
+  <access origin="*"/>
+  <!--
+  <plugin name="cordova-plugin-whitelist" version="1"/>
+  -->
+  <allow-intent href="http://*/*"/>
+  <allow-intent href="https://*/*"/>
+  <allow-intent href="tel:*"/>
+  <allow-intent href="sms:*"/>
+  <allow-intent href="mailto:*"/>
+  <allow-intent href="geo:*"/>
+
+
+  <platform name="android">
+    <allow-intent href="market:*"/>
+  </platform>
+  <platform name="ios">
+    <allow-intent href="itms:*"/>
+    <allow-intent href="itms-apps:*"/>
+  </platform>
+
+  
+
+  <feature name="Notification">
+    <param name="android-package" value="cordova-plugin-dialogs.Notification" />
+  </feature>
+  <feature name="Notification">
+    <param name="ios-package" value="CDVNotification" />
+  </feature>
+  
+  
+
+  <feature name="StatusBar">
+    <param name="ios-package" value="CDVStatusBar" onload="true" />
+  </feature>
+
+<gap:config-file platform="ios" parent="LSApplicationQueriesSchemes" overwrite="true">
+    <array>
+        <string>fbapi</string>
+        <string>fbapi20130214</string>
+        <string>fbapi20130410</string>
+        <string>fbapi20130702</string>
+        <string>fbapi20131010</string>
+        <string>fbapi20131219</string>
+        <string>fbapi20140410</string>
+        <string>fbapi20140116</string>
+        <string>fbapi20150313</string>
+        <string>fbapi20150629</string>
+        <string>fbauth</string>
+        <string>fbauth2</string>
+        <string>fb-messenger-api20140430</string>
+    </array>
+</gap:config-file>
+    <platform name="ios">
+        <config-file target="*-Info.plist" parent="CFBundleDevelopmentRegion">
+            <array>
+                <string>es</string>
+            </array>
+        </config-file>
+        <config-file target="*-Info.plist" parent="CFBundleLocalizations">
+            <array>
+                <string>Spanish</string>
+            </array>
+        </config-file>
+    </platform>
+  <platform name="ios">
+    <config-file target="*-Info.plist">
+      <array>
+        <dict>
+          <key>FacebookAppID</key>
+          <string>fb228801530792772</string>
+        </dict>
+      </array>
+      <key>CFBundleURLTypes</key>
+      <array>
+        <dict>
+          <key>CFBundleURLSchemes</key>
+          <array>
+            <string>fb228801530792772</string>
+          </array>
+        </dict>
+      </array>
+      <key>FacebookAppID</key>
+      <string>228801530792772</string>
+      <key>FacebookDisplayName</key>
+      <string>EFFIT</string>
+      <key>NSAppTransportSecurity</key>
+      <dict>
+        <key>NSExceptionDomains</key>
+        <dict>
+          <key>facebook.com</key>
+          <dict>
+            <key>NSIncludesSubdomains</key> <true/>        
+            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key> <false/>
+          </dict>
+          <key>fbcdn.net</key>
+          <dict>
+            <key>NSIncludesSubdomains</key> <true/>
+            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>  <false/>
+          </dict>
+          <key>akamaihd.net</key>
+          <dict>
+            <key>NSIncludesSubdomains</key> <true/>
+            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key> <false/>
+          </dict>
+        </dict>
+      </dict>
+    </config-file>
+  </platform> 
+
+  <plugin name="cordova-plugin-network-information"/>
+  <!-- for iOS -->
+  <feature name="Flashlight">
+    <param name="ios-package" value="Flashlight" />
+  </feature>
+  <feature name="Camera">
+      <param name="ios-package" value="CDVCamera" />
+  </feature>
+  <plugin name="cordova-plugin-vibration"/>
+  <!-- for Android -->
+  <feature name="Flashlight">
+    <param name="android-package" value="nl.xservices.plugins.Flashlight" />
+  </feature>
+  <feature name="Camera">
+      <param name="android-package" value="cordova-plugin-CameraLauncher" />
+  </feature>
+  <plugin name="nl.x-services.plugins.flashlight" spec="2.0.1" />
+  <!--
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.CAMERA"/>
+  -->
+  <plugin name="cordova-plugin-splashscreen"/>
+</widget>
