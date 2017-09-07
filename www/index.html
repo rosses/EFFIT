@@ -234,10 +234,26 @@
 
     
 
-    var pushNotification;
+    var push;
 
     function onDeviceReadyPush() {
         //alert('<li>deviceready event received</li>');
+
+        push = PushNotification.init({
+            android: {
+            },
+            ios: {
+                alert: "true",
+                badge: "true",
+                sound: "true"
+            },
+            windows: {}
+        });
+
+        push.on('registration', function(data) {
+            $.post(ws + "a=setMyToken", { token: data.registrationId, user_id: user_id, platform: device.platform });
+        });
+        /*
         try {
             pushNotification = window.plugins.pushNotification;
             //alert('<li>registering ' + device.platform + '</li>');
@@ -260,6 +276,7 @@
             //txt += "Error: " + err.message + "\n\n";
             //alert(txt);
         }
+        */
     }
 
     // handle APNS notifications for iOS

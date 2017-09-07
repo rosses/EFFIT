@@ -46,7 +46,9 @@
   <plugin name="cordova-plugin-media"/>
   <plugin spec="https://github.com/macdonst/TelephoneNumberPlugin.git" source="git" />
   <plugin spec="https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin.git" source="git" />
-  <plugin spec="https://github.com/phonegap-build/PushPlugin.git" source="git" />
+  <plugin name="phonegap-plugin-push" spec="1.5.3">
+      <param name="SENDER_ID" value="661780372179" />
+  </plugin>
   <plugin name="phonegap-plugin-barcodescanner" />
   <plugin name="cordova-plugin-whitelist" source="npm" />
   <plugin name="cordova-plugin-app-version" />
@@ -106,6 +108,7 @@
 
   <platform name="android">
     <allow-intent href="market:*"/>
+    <preference name="android-minSdkVersion" value="15"/>
   </platform>
   <platform name="ios">
     <allow-intent href="itms:*"/>
