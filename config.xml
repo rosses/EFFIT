@@ -1,4 +1,4 @@
-  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.effit.app" version="2.0.2">
+  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.effit.app" version="2.0.3">
   <name>EFFIT</name>
   <description>Con EFFIT, olvida el dinero en tus eventos. Paga todo con tu celular.</description>
   <author href="http://www.effitapp.com" email="effit@effitapp.com">EFFIT</author>
@@ -26,15 +26,6 @@
   <preference name="KeyboardShrinksView" value="true" />
   <preference name="AutoHideSplashScreen" value="false" />
   <preference name="EnableViewportScale" value="true"/>
-  <plugin name="cordova-plugin-camera">
-      <param name="CAMERA_USAGE_DESCRIPTION" value="Esta app necesita acceso a tu camara" />
-      <variable name="CAMERA_USAGE_DESCRIPTION" value="Esta app necesita acceso a tu camara" />
-  </plugin>
-  <plugin name="cordova-plugin-media-capture" source="npm" spec="*">
-    <variable name="CAMERA_USAGE_DESCRIPTION" value="Effit necesita usar tu camara" />
-    <variable name="MICROPHONE_USAGE_DESCRIPTION" value="Effit necesita usar el microfono" />
-    <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Effit necesita usar tus fotos" />
-  </plugin>
   <plugin name="cordova-plugin-console"/>
   <plugin name="cordova-plugin-device"/>
   <plugin name="cordova-plugin-device-motion"/>
@@ -47,7 +38,6 @@
   <plugin name="cordova-plugin-geolocation"/>
   <plugin name="cordova-plugin-globalization"/>
   <plugin name="cordova-plugin-inappbrowser"/>
-  <plugin name="cordova-plugin-media"/>
   <plugin spec="https://github.com/macdonst/TelephoneNumberPlugin.git" source="git" />
   <plugin spec="https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin.git" source="git" />
   <plugin name="phonegap-plugin-push" spec="1.5.3">
