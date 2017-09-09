@@ -118,7 +118,7 @@
               }
            },
            onFailure: function(result) {
-              $rootScope.hideload();
+              $("#sys_load").hide();
               if(result.cancelled) {
                  err("EFFIT no está autorizada en tu Facebook. No puedes conectarte vía Facebook");
               } else if(result.error) {
@@ -157,7 +157,10 @@
 
         push = PushNotification.init({
             android: {
-                senderID: 675811024957
+                senderID: 675811024957,
+                icon: "fcm_push_icon",
+                iconColor: "#fa5c02",
+                badge: "true"
             },
             ios: {
                 alert: "true",
