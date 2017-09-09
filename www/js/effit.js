@@ -29,7 +29,10 @@ eventoActivo = 0;
 var appversion = 0;
 var pictureSource;   // picture source
 var destinationType; // sets the format of returned value
-
+var preventScroll = 0;
+var TempQR = "";
+var TempEmail = "";
+var push;
 
 $(document).on("mobileinit", function () {
     //$.mobile.ignoreContentEnabled=true;
@@ -906,7 +909,63 @@ $(document).on("tap","#close_onec",function(e) {
 $(document).on("tap","#close_layer",function(e) {
 	$("#layer_evento").hide();
 	$("#sys_load").hide();
+	preventScroll = 1;
+	e.stopPropagation();
+	setTimeout(function() {
+		preventScroll = 0;
+	},500);
 });
+
+
+$(document).on("tap",".boton_resend",function(e) {
+	$.post(ws+"a=resendQR", {qr_code: $(this).attr('data-qra'), user_id: $(this).attr('data-user_id'), eventoid: $(this).attr('data-eventoid'), tipo: $(this).attr('data-tipo') }, function(data) {
+		$(".miseventos_qrlist").html(data.html);
+		scrolltickets.refresh();
+		scrolltickets.scrollTo(0,0);
+		zero();
+	},"json").fail(function () { out(); });
+});
+
+function isAValidEmailAddress(emailAddress){
+     return /^[a-z0-9_\-\.]{2,}@[a-z0-9_\-\.]{2,}\.[a-z]{2,}$/i.test(emailAddress);
+}
+$(document).on("tap","#btn_resend_ok",function(e) {
+	var reenviar_email = $.trim($("#reenviar_email").val());
+	if (!isAValidEmailAddress(reenviar_email)) {
+		navigator.notification.alert("Debes ingresar un email válido", function(){}, "Error");
+	}
+	else {
+		TempEmail = reenviar_email;
+		TempQR = $(this).attr('data-qra');
+	    navigator.notification.confirm(
+	        'Confirmas reenviar QR a '+reenviar_email+'?',  
+	        function() {
+				$(".miseventos_qrlist").html('<br><br><div align="center"><img src="img/loading_home.gif" /></div>');
+				$.post(ws+"a=resendQRconfirm", { qr_code: TempQR, email: reenviar_email }, function(data) {
+					if (data.res == "OK") {
+						ajaxTickets = 0;
+						loadTickets();
+						navigator.notification.alert("QR Reenviado con éxito", function(){}, "Listo");
+					}
+					else {
+						navigator.notification.alert("No fue posible reenviar tu QR, intentálo más tarde", function(){}, "Error");
+					}
+					
+					$(".miseventos_qrlist").html(data.html);
+					scrolltickets.refresh();
+					scrolltickets.scrollTo(0,0);
+					zero();
+				},"json").fail(function () { out(); });
+	        },              
+	        'Transacción preparada',            
+	        'Confirmar,Cancelar'          
+	    );
+
+
+	}
+
+});
+
 
 $(document).on("tap","#close_compra",function(e) {
 	e.preventDefault();
@@ -1542,8 +1601,8 @@ $(document).on("touchend",".facebookfriend,.qr_obj_a,#verTerminos, #btn_lostpass
 });
 
 
-$(document).on("tap","#menu_tab0", function() { carousel.slickGoTo(0); zero(); });
-$(document).on("tap","#menu_tab1", function() { carousel.slickGoTo(1); loadDestacados(); zero(); });
+$(document).on("tap","#menu_tab0", function() { if (preventScroll == 0) { carousel.slickGoTo(0); zero(); } });
+$(document).on("tap","#menu_tab1", function() { if (preventScroll == 0) { carousel.slickGoTo(1); loadDestacados(); zero(); } });
 $(document).on("tap","#menu_tab2", function() { carousel.slickGoTo(2); loadEventos(); zero(); });
 $(document).on("tap","#menu_tab3", function() { carousel.slickGoTo(3); loadTickets(); zero(); });
 $(document).on("tap","#menu_tab4", function() { carousel.slickGoTo(4); loadPago(); zero(); });

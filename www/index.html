@@ -36,7 +36,8 @@
     
   <script type="text/javascript">
     var FB_Login_Gift = function() {
-        $("#sys_load").show();
+        err('No es posible conectar con tu cuenta Facebook. Intentalo más tarde');
+        /*$("#sys_load").show();
         if (!window.cordova) {
             facebookConnectPlugin.browserInit("228801530792772");
         }
@@ -66,145 +67,65 @@
                 $("#sys_load").hide();
                 err('No fue posible acceder a tu cuenta de Facebook.');
             });
+        */
     }
     var FB_Login_Register = function () {
         $("#sys_load").show();
-        if (!window.cordova) {
-            facebookConnectPlugin.browserInit("228801530792772");
-        }
-        
-        /*
-            Cerrar cuenta Facebook
-        */
-        /*
-        facebookConnectPlugin.getLoginStatus( 
-            function (response) { 
-                console.log('Sesion Facebook: '+response.status); 
-                if (response.status == 'connected') {
-                console.log('cerrar sess fb activa'); 
-                facebookConnectPlugin.logout( 
-                    function (response) { console.log('Cerrado OK:'+JSON.stringify(response)); FB_Login_Register_Go(); },
-                    function (response) { console.log('No cerrado:'+JSON.stringify(response)); FB_Login_Register_Go(); });
-                }
-                else {
-                    FB_Login_Register_Go();    
-                }
-
-            },
-            function (response) { 
-                console.log('Registro: Not facebook opened sess'); 
-                FB_Login_Register_Go();
-            });
-        */
-        FB_Login_Register_Go();
-    }
-    var FB_Login_Register_Go = function () {
-        facebookConnectPlugin.login( ["email", "user_friends", "public_profile", "user_birthday"], 
-            function (response) {
-                if(response.status === 'connected') {
-                    localStorage.setItem('EFFIT_FACEBOOK', response.authResponse.accessToken);
-                    facebookConnectPlugin.api( "me/?fields=first_name,id,email,last_name,name,picture,birthday,gender", ["user_friends", "email", "public_profile", "user_birthday"],
-                        function (response) { 
-                            $.post(ws+"a=consultaFBID", {id: response.id, email: response.email, hash: localStorage.getItem('EFFIT_FACEBOOK')}, function(data2) {
-                                if (data2.res=="ok") {
-                                  $("#newPerfilFoto").attr('src','http://graph.facebook.com/'+response.id+'/picture?width=1000'); //data.picture.data.url
-                                  $("#newPerfilFotoFbk").val('http://graph.facebook.com/'+response.id+'/picture?width=1000'); //data.picture.data.url
-                                  $("#newPerfilIdFbk").val(response.id);
-                                  $("#newPerfilNameFbk").val(response.name);
-                                  $("#newPerfilTokenFbk").val(localStorage.getItem('EFFIT_FACEBOOK'));
-                                  $(".login").animate({marginBottom: "-272px"},500,function(){
-                                    $("#registro_nombre").val(response.first_name);
-                                    $("#registro_apellido").val(response.last_name);
-                                    $("#registro_email").val(response.email);
-                                    if (response.birthday) {
-                                      var spl = response.birthday.split('/');
-                                      $("#registro_nac_dia").val(spl[1]);
-                                      $("#registro_nac_mes").val(spl[0]);
-                                      $("#registro_nac_ano").val(spl[2]);
-                                    }
-                                    if (response.gender) {
-                                      if (response.gender == "male") {
-                                        $("[data-val='M']").addClass('activo');
-                                        $("#registro_sexo").val('M');
-                                      } 
-                                      if (response.gender == "female") {
-                                        $("[data-val='F']").addClass('activo');
-                                        $("#registro_sexo").val('F');
-                                      } 
-                                    }
-                                    $("#sys_load").hide();
-                                    $(".registro").animate({marginBottom: 0},800,function(){});
-
-                                  });
-                                } else {
-                                  forceLogin(response.id);
-                                  $("#sys_load").hide();
-                                }
-                              },"json");
-                        },
-                        function (response) { 
-                            console.log(JSON.stringify(response));
-                            $("#sys_load").hide();
-                            err('Tu cuenta Facebook no ha autorizado EFFIT, debes iniciar la sesión de EFFIT con tu Facebook');
-                        }); 
-                } else {
-                    console.log(JSON.stringify(response));
-                    $("#sys_load").hide();
-                    err('Tu cuenta de Facebook no ha autorizado EFFIT, debes iniciar la sesión de EFFIT con tu Facebook');
-                } 
-            },
-            function (response) {
-                console.log(JSON.stringify(response));
-                $("#sys_load").hide();
-                err('No fue posible acceder a tu cuenta de Facebook.');
-            });
-    }
-    
-    var showDialog = function () { 
-        facebookConnectPlugin.showDialog( { method: "feed" }, 
-            function (response) { alert(JSON.stringify(response)) },
-            function (response) { alert(JSON.stringify(response)) });
-    }
-    
-    var apiTest = function () { 
-        facebookConnectPlugin.api( "me/?fields=id,email,gender", ["user_birthday"],
-            function (response) { alert(JSON.stringify(response)) },
-            function (response) { alert(JSON.stringify(response)) }); 
-    }
-    var logPurchase = function () {
-        facebookConnectPlugin.logPurchase(1.99, "USD",
-            function (response) { alert(JSON.stringify(response)) },
-            function (response) { alert(JSON.stringify(response)) });
-    }
-    var logEvent = function () {
-        // For more information on AppEvent param structure see
-        // https://developers.facebook.com/docs/ios/app-events
-        // https://developers.facebook.com/docs/android/app-events
-        facebookConnectPlugin.logEvent("Purchased",
-            {
-                NumItems: 1,
-                Currency: "USD",
-                ContentType: "shoes",
-                ContentID: "HDFU-8452"
-            }, null,
-            function (response) { alert(JSON.stringify(response)) },
-            function (response) { alert(JSON.stringify(response)) });
-    }
-    var getAccessToken = function () { 
-        facebookConnectPlugin.getAccessToken( 
-            function (response) { alert(JSON.stringify(response)) },
-            function (response) { alert(JSON.stringify(response)) });
-    }
-    
-    var getStatus = function () { 
-        facebookConnectPlugin.getLoginStatus( 
-            function (response) { console.log('LOGIN STATUS: ' + JSON.stringify(response)) },
-            function (response) { console.log('LOGIN STATUS FAIL: ' + JSON.stringify(response)) });
-    }
-    var logout = function () { 
-        facebookConnectPlugin.logout( 
-            function (response) { alert(JSON.stringify(response)) },
-            function (response) { alert(JSON.stringify(response)) });
+        CordovaFacebook.login({
+           permissions: ['email', 'public_profile', 'user_friends', 'user_birthday'],
+           onSuccess: function(result) {
+              if(result.declined.length > 0) {
+                 err('Se ha rechazado la conexión con Facebook');
+              }
+              else if (result.success == 1) {
+                  $.get("https://graph.facebook.com/me?fields=first_name,id,email,last_name,name,picture,birthday,gender&access_token="+result.accessToken, {},function (response) {
+                      $("#newPerfilFoto").attr('src','http://graph.facebook.com/'+response.id+'/picture?width=1000');  
+                      $("#newPerfilFotoFbk").val('http://graph.facebook.com/'+response.id+'/picture?width=1000');  
+                      $("#newPerfilIdFbk").val(response.id);
+                      $("#newPerfilNameFbk").val(response.name);
+                      $("#newPerfilTokenFbk").val(localStorage.getItem('EFFIT_FACEBOOK'));
+                      $(".login").animate({marginBottom: "-272px"},500,function(){
+                        $("#registro_nombre").val(response.first_name);
+                        $("#registro_apellido").val(response.last_name);
+                        $("#registro_email").val(response.email);
+                        if (response.birthday) {
+                          var spl = response.birthday.split('/');
+                          $("#registro_nac_dia").val(spl[1]);
+                          $("#registro_nac_mes").val(spl[0]);
+                          $("#registro_nac_ano").val(spl[2]);
+                        }
+                        if (response.gender) {
+                          if (response.gender == "male") {
+                            $("[data-val='M']").addClass('activo');
+                            $("#registro_sexo").val('M');
+                          } 
+                          if (response.gender == "female") {
+                            $("[data-val='F']").addClass('activo');
+                            $("#registro_sexo").val('F');
+                          } 
+                        }
+                        $("#sys_load").hide();
+                        $(".registro").animate({marginBottom: 0},800,function(){});
+                        $("#sys_load").hide();
+                      });
+                  }, "json").fail(function() {
+                      err("Error al obtener tus datos de Facebook. Intente más tarde");
+                      $("#sys_load").hide();
+                  });             
+              }
+              else {
+                err("Error al intentar conectar con Facebook.");
+              }
+           },
+           onFailure: function(result) {
+              $rootScope.hideload();
+              if(result.cancelled) {
+                 err("EFFIT no está autorizada en tu Facebook. No puedes conectarte vía Facebook");
+              } else if(result.error) {
+                 err("Error: " + result.errorLocalized);
+              }
+           }
+        });
     }
 
     </script>
@@ -232,15 +153,11 @@
         }
     }
 
-    
-
-    var push;
-
     function onDeviceReadyPush() {
-        //alert('<li>deviceready event received</li>');
 
         push = PushNotification.init({
             android: {
+                senderID: 675811024957
             },
             ios: {
                 alert: "true",
@@ -253,127 +170,7 @@
         push.on('registration', function(data) {
             $.post(ws + "a=setMyToken", { token: data.registrationId, user_id: user_id, platform: device.platform });
         });
-        /*
-        try {
-            pushNotification = window.plugins.pushNotification;
-            //alert('<li>registering ' + device.platform + '</li>');
-            if (device.platform == 'android' || device.platform == 'Android' ||
-                device.platform == 'amazon-fireos') {
-                pushNotification.register(successHandlerPush, errorHandlerPush, {
-                    "senderID": "661780372179",
-                    "ecb": "onNotification"
-                }); // required!
-            } else {
-                pushNotification.register(tokenHandlerPush, errorHandlerPush, {
-                    "badge": "true",
-                    "sound": "true",
-                    "alert": "true",
-                    "ecb": "onNotificationAPN"
-                }); // required!
-            }
-        } catch (err) {
-            //txt = "There was an error on this page.\n\n";
-            //txt += "Error: " + err.message + "\n\n";
-            //alert(txt);
-        }
-        */
-    }
 
-    // handle APNS notifications for iOS
-    function onNotificationAPN(e) {
-        if (e.alert) {
-        	
-            console.log('push-notification: ' + e.alert + '');
-
-            // showing an alert also requires the org.apache.cordova.dialogs plugin
-            /*navigator.notification.alert(e.alert);*/
-        }
-
-        if (e.sound) {
-            // playing a sound also requires the org.apache.cordova.media plugin
-            var snd = new Media(e.sound);
-            snd.play();
-        }
-
-        if (e.badge) {
-            pushNotification.setApplicationIconBadgeNumber(successHandlerPush, e.badge);
-        }
-    }
-
-    // handle GCM notifications for Android
-    function onNotification(e) {
-        //alert('<li>EVENT -> RECEIVED:' + e.event + '</li>');
-
-        switch (e.event) {
-            case 'registered':
-                if (e.regid.length > 0) {
-                    //alert('<li>REGISTERED -> REGID:' + e.regid + "</li>");
-                    // Your GCM push server needs to know the regID before it can push to this device
-                    // here is where you might want to send it the regID for later use.
-                    console.log("regID = " + e.regid);
-                }
-                break;
-
-            case 'message':
-                // if this flag is set, this notification happened while we were in the foreground.
-                // you might want to play a sound to get the user's attention, throw up a dialog, etc.
-                if (e.foreground) {
-                    //alert('<li>--INLINE NOTIFICATION--' + '</li>');
-
-                    // on Android soundname is outside the payload. 
-                    // On Amazon FireOS all custom attributes are contained within payload
-                    var soundfile = e.soundname || e.payload.sound;
-                    // if the notification contains a soundname, play it.
-                    // playing a sound also requires the org.apache.cordova.media plugin
-                    var my_media = new Media("/android_asset/www/" + soundfile);
-
-                    my_media.play();
-                } else { // otherwise we were launched because the user touched a notification in the notification tray.
-                    if (e.coldstart) {
-                        //alert('<li>--COLDSTART NOTIFICATION--' + '</li>');
-                    }
-                    else {
-                        //alert('<li>--BACKGROUND NOTIFICATION--' + '</li>');
-                    }
-                }
-
-                //alert('<li>MESSAGE -> MSG: ' + e.payload.message + '</li>');
-                //android only
-                //alert('<li>MESSAGE -> MSGCNT: ' + e.payload.msgcnt + '</li>');
-                //amazon-fireos only
-                //alert('<li>MESSAGE -> TIMESTAMP: ' + e.payload.timeStamp + '</li>');
-                break;
-
-            case 'error':
-                //alert('<li>ERROR -> MSG:' + e.msg + '</li>');
-                break;
-
-            default:
-                //alert('<li>EVENT -> Unknown, an event was received and we do not know what it is</li>');
-                break;
-        }
-    }
-    function tokenHandlerPush (result) {
-        //alert('<li>token: '+ result +'</li>');
-        // IOS
-        $.post(ws + "a=setMyToken", { token: result, user_id: user_id, platform: device.platform });
-
-        // Your iOS push server needs to know the token before it can push to this device
-        // here is where you might want to send it the token for later use.
-    }
-
-    function successHandlerPush (result) {
-        //alert('<li>success:'+ result +'</li>');
-        // ANDROID
-        $.post(ws + "a=setMyToken", { token: result, user_id: user_id, platform: device.platform });
-    }
-
-    function errorHandlerPush (error) {
-        //alert('<li>error:'+ error +'</li>');
-    }
-
-    function errorHandlerPush(error) {
-        console.log(error.message);
     }
     </script>
   </head>

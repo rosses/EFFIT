@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "675811024957",
+    "firebase_url": "https://bamboo-zephyr-117123.firebaseio.com",
+    "project_id": "bamboo-zephyr-117123",
+    "storage_bucket": "bamboo-zephyr-117123.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:675811024957:android:26962be5cee8e50b",
+        "android_client_info": {
+          "package_name": "com.effit.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "675811024957-e0scoi75doqf79ephsea8b78dbmd5l5b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.effit.app",
+            "certificate_hash": "12197a79287b708a56d983c4d8e9c26da3b3aa0a"
+          }
+        },
+        {
+          "client_id": "675811024957-p74umi273i293k93i0rhuh9u1uc2hbdo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGkr7memHDQwBajR9kK1IqG6_-18pRl0E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "675811024957-p74umi273i293k93i0rhuh9u1uc2hbdo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
