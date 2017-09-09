@@ -36,14 +36,13 @@
     <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Effit necesita usar tus fotos" />
   </plugin>
   <plugin name="cordova-plugin-console"/>
-  <plugin name="cordova-plugin-contacts"/>
   <plugin name="cordova-plugin-device"/>
   <plugin name="cordova-plugin-device-motion"/>
   <plugin name="cordova-plugin-device-orientation"/>
   <plugin name="cordova-plugin-dialogs"/>
   <plugin name="cordova-plugin-file"/>
   <plugin name="cordova-plugin-keyboard"/>
-  <plugin name="cordova-plugin-file-transfer"/>
+  <plugin name="cordova-custom-config" />
   <plugin name="cordova-plugin-statusbar"  />
   <plugin name="cordova-plugin-geolocation"/>
   <plugin name="cordova-plugin-globalization"/>
@@ -209,6 +208,37 @@
           </dict>
         </dict>
       </dict>
+    </config-file>
+    <config-file parent="LSApplicationQueriesSchemes" target="*-Info.plist">
+        <array>
+            <string>fb</string>
+            <string>twitter</string>
+        </array>
+    </config-file>
+    <config-file parent="CFBundleDevelopmentRegion" target="*-Info.plist" mode="replace">
+        <array>
+            <string>en-CL</string>
+        </array>
+    </config-file>
+    <config-file parent="CFBundleLocalizations" target="*-Info.plist" mode="replace">
+        <array>
+            <string>es</string>
+        </array>
+    </config-file>
+    <config-file target="*-Info.plist" parent="NSLocationUsageDescription">
+        <string>Esta app necesita acceso a tu ubicación</string>
+    </config-file>
+    <config-file target="*-Info.plist" parent="NSLocationAlwaysUsageDescription">
+        <string>Esta app necesita acceso a tu ubicación (siempre)</string>
+    </config-file>
+    <config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
+        <string>Esta app necesita acceso a tu ubicación (en uso)</string>
+    </config-file>
+    <config-file target="*-Info.plist" parent="NSCameraUsageDescription" overwrite="true">
+       <string>Esta app necesita acceso a tu camara</string>
+    </config-file>
+    <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription" overwrite="true">
+       <string>Esta app necesita acceso a tu galeria</string>
     </config-file>
   </platform> 
 
