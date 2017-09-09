@@ -27,10 +27,14 @@
   <preference name="AutoHideSplashScreen" value="false" />
   <preference name="EnableViewportScale" value="true"/>
   <plugin name="cordova-plugin-camera">
-    <variable name="CAMERA_USAGE_DESCRIPTION" value="EFFIT quiere ocupar tu camara" />
-    <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="EFFIT quiere acceder a tus fotos" />
+      <param name="CAMERA_USAGE_DESCRIPTION" value="Esta app necesita acceso a tu camara" />
+      <variable name="CAMERA_USAGE_DESCRIPTION" value="Esta app necesita acceso a tu camara" />
   </plugin>
-  <plugin name="cordova-plugin-media-capture"/>
+  <plugin name="cordova-plugin-media-capture" source="npm" spec="*">
+    <variable name="CAMERA_USAGE_DESCRIPTION" value="Effit necesita usar tu camara" />
+    <variable name="MICROPHONE_USAGE_DESCRIPTION" value="Effit necesita usar el microfono" />
+    <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Effit necesita usar tus fotos" />
+  </plugin>
   <plugin name="cordova-plugin-console"/>
   <plugin name="cordova-plugin-contacts"/>
   <plugin name="cordova-plugin-device"/>
