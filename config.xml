@@ -25,7 +25,7 @@
   <preference name="KeyboardShrinksView" value="true" />
   <preference name="AutoHideSplashScreen" value="false" />
   <preference name="EnableViewportScale" value="false"/>
-  <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize" />
+  <preference name="android-windowSoftInputMode" value="adjustResize|stateHidden" />
 
 
   <plugin name="cordova-plugin-console"/>
