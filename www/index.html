@@ -74,6 +74,7 @@
         CordovaFacebook.login({
            permissions: ['email', 'public_profile', 'user_friends', 'user_birthday'],
            onSuccess: function(result) {
+              console.log(result);
               if(result.declined.length > 0) {
                  err('Se ha rechazado la conexión con Facebook');
               }
