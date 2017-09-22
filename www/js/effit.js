@@ -1536,7 +1536,7 @@ function readQR() {
 	$("#leer_qr").show();
    cordova.plugins.barcodeScanner.scan(
       function (result) {
-      	//window.plugins.flashlight.switchOff(); 
+      	window.plugins.flashlight.switchOff(); 
       	if (result.cancelled==1) {
       		//navigator.notification.alert("Error: "+error, function(){}, "Error general");
       	}
@@ -1566,6 +1566,10 @@ function readQR() {
       function (error) {
       	window.plugins.flashlight.switchOff(); 
       	navigator.notification.alert("Error: "+error, function(){}, "Error general");
+      },
+      {
+          showTorchButton : true, // iOS and Android
+          torchOn: ($("#myonoffswitch").is(":checked") ? true : false) // Android, launch with the torch switched on (if available)
       }
    );
 }
