@@ -623,8 +623,10 @@ $(document).on("tap","#cerrar_session",function() {
 	localStorage.removeItem('effitHashKeygen');
 	localStorage.removeItem('EFFIT_FACEBOOK');
 	$(".topbar").stop().animate({marginTop: "-50px"}, 500);
+
 	$("#home").stop().fadeOut('fast',function() {
 		$("#intro").stop().fadeIn(function() { 
+			$("#home").hide();
 			$(".login").css('z-index',10000000);
 			$(".login").animate({marginBottom: 0},800); 
 		});		
@@ -691,6 +693,7 @@ function autologinUsuario() {
 			user_id = localStorage.getItem('effitUserID');
 			$(".loading_home").fadeOut('slow',function() {
 				$("#intro").fadeOut('fast',function() {
+					$("home").show();
 					$("#home").fadeIn(function() { loadDestacados(); });
 				});
 			});
@@ -1501,6 +1504,7 @@ function forceLogin(alternative_idfb) {
 				}
 				$.post(ws+"a=setMyHash", { user_id: user_id, hash: posiblestr });
 				$("#intro").fadeOut();
+				$("#home").show();
 				$("#home").fadeIn(function() { loadDestacados(); onDeviceReadyPush(); });
 			}
 			else {
@@ -1532,7 +1536,7 @@ function readQR() {
 	$("#leer_qr").show();
    cordova.plugins.barcodeScanner.scan(
       function (result) {
-      	window.plugins.flashlight.switchOff(); 
+      	//window.plugins.flashlight.switchOff(); 
       	if (result.cancelled==1) {
       		//navigator.notification.alert("Error: "+error, function(){}, "Error general");
       	}
