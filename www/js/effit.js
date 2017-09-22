@@ -27,8 +27,8 @@ timerTicket = null;
 feedbackController = null;
 eventoActivo = 0;
 var appversion = 0;
-var pictureSource;   // picture source
-var destinationType; // sets the format of returned value
+//var pictureSource;   // picture source
+//var destinationType; // sets the format of returned value
 var preventScroll = 0;
 var TempQR = "";
 var TempEmail = "";
@@ -47,8 +47,8 @@ function getPhoto(source) {
 }
 document.addEventListener('deviceready', function() {
   navigator.splashscreen.hide();
-  pictureSource = navigator.camera.PictureSourceType;
-  destinationType = navigator.camera.DestinationType;
+  //pictureSource = navigator.camera.PictureSourceType;
+  //destinationType = navigator.camera.DestinationType;
 });
 setInterval(function() { ajaxTickets = 0; ajaxHistorial = 0; }, 10000);
 
