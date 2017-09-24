@@ -106,6 +106,7 @@
                           $("#home").show();
                           $("#home").fadeIn(function() { 
                             loadDestacados(); 
+                            $('#sys_foot_ul')[0].slick.refresh();
                             feedbackController = setInterval(feedbackControllerGo, 60000);
                             feedbackControllerGo();
                             onDeviceReadyPush(); 

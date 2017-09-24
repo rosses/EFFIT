@@ -696,7 +696,7 @@ function autologinUsuario() {
 			$(".loading_home").fadeOut('slow',function() {
 				$("#intro").fadeOut('fast',function() {
 					$("home").show();
-					$("#home").fadeIn(function() { loadDestacados(); });
+					$("#home").fadeIn(function() { loadDestacados(); $('#sys_foot_ul')[0].slick.refresh(); });
 				});
 			});			
 			feedbackController = setInterval(feedbackControllerGo, 300000);
@@ -1602,6 +1602,7 @@ function forceLogin(alternative_idfb) {
 				$("#home").show();
 				$("#home").fadeIn(function() { 
 					loadDestacados();
+					$('#sys_foot_ul')[0].slick.refresh();
 					feedbackController = setInterval(feedbackControllerGo, 300000);
 					feedbackControllerGo();
 					onDeviceReadyPush(); 
