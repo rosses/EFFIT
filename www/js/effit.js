@@ -816,7 +816,12 @@ $(document).ready(function () {
 $(document).on("tap",".facebookfriend",function() {
 	$("#sys_load").show();
 	var nnn = $(this).attr('data-name');
-	$.post(ws+"a=regalar_ok", { user_id: user_id, id: $(this).attr('data-evento'), fbuserkey: $(this).attr('data-fbkey') }, function(data) {
+	$.post(ws+"a=regalar_ok", { 
+		user_id: user_id, 
+		id: $(this).attr('data-evento'), 
+		fbuserkey: $(this).attr('data-fbkey'),
+		fbname: nnn
+	}, function(data) {
 		$("#sys_load").hide();
 		if (data.res=="ok") {
 			$(".facebookfriend").hide();
@@ -1111,7 +1116,7 @@ $(document).on("tap","#verTerminos",function(e) {
 $(document).on("tap","#confirmarRegalo",function(e) {
 	e.preventDefault();
 	var pagar = parseInt($("#montopagar").val());
-	var sumas = 0;
+	var sumas = 0; //qty
 	$(".cant").each(function() {
 		var mas = parseInt($(this).val());
 		sumas += mas;
@@ -1288,7 +1293,7 @@ $(document).on("tap",".cartolaevento_sel",function(e) {
 });
 $(document).on("tap","#facebookRequestLogin",function(e) {
 	e.preventDefault();
-	FB_Login_Gift();
+	FB_Login_Gift("regala");
 });
 $(document).on("tap","#opRegala",function() {
 	$("#layer_regalar").show();
@@ -1296,16 +1301,16 @@ $(document).on("tap","#opRegala",function() {
 	$("#sys_load").show();
 	var id = $(this).attr('data-evento');
 	eventoActivo = id;
-	var posibleHash = localStorage.getItem('EFFIT_FACEBOOK');
+	var posibleHash = null;
+	posibleHash = localStorage.getItem('EFFIT_FACEBOOK');
 	if (!posibleHash) { posibleHash = ""; }
 
 	// check existe hash facebook
-	if (posibleHash != "") {
-		// Facebook OK
-		getFriends(posibleHash);
-	} 
-	else {
+	if (posibleHash == "") {
 		regalarMetodo("",user_id);
+	}
+	else {
+		regalarMetodo(posibleHash,user_id);
 	}
 	
 });
@@ -1315,6 +1320,7 @@ function regalarMetodo(token,user_id) {
 			$("#layer_regalar_cont").html(data.html).imagesLoaded().done(function() {
 				scrollregalar = new IScroll('#wrapperregalar');
 				$("#sys_load").hide();
+				scrollregalar.refresh();
 			});
 		}
 		else {
