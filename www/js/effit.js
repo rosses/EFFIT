@@ -958,7 +958,8 @@ $(document).on("tap","#btn_resend_ok",function(e) {
 		TempQR = $(this).attr('data-qra');
 	    navigator.notification.confirm(
 	        'Confirmas reenviar QR a '+reenviar_email+'?',  
-	        function() {
+	        function(bindex) {
+	          if (bindex == 1) {
 				$(".miseventos_qrlist").html('<br><br><div align="center"><img src="img/loading_home.gif" /></div>');
 				$.post(ws+"a=resendQRconfirm", { qr_code: TempQR, email: reenviar_email }, function(data) {
 					if (data.res == "OK") {
@@ -975,6 +976,7 @@ $(document).on("tap","#btn_resend_ok",function(e) {
 					scrolltickets.scrollTo(0,0);
 					zero();
 				},"json").fail(function () { out(); });
+			  }
 	        },              
 	        'Transacción preparada',            
 	        'Confirmar,Cancelar'          
@@ -983,6 +985,42 @@ $(document).on("tap","#btn_resend_ok",function(e) {
 
 	}
 
+});
+
+$(document).on("tap","#btn_resend_ok_fb",function(e) {
+
+	if (parseInt($("#reenviar_fb").val())==0) {
+		err('No puedes utilizar reenviar QR por Facebook - No tienes ningún amigo seleccionado');
+	}
+	else {
+		TempQR = $(this).attr('data-qra');
+	    navigator.notification.confirm(
+	        'Confirmas reenviar QR via Facebook?',  
+	        function(bindex) {
+	        	if (bindex == 1) {
+		        	var fbid = $("#reenviar_fb").val();
+					$(".miseventos_qrlist").html('<br><br><div align="center"><img src="img/loading_home.gif" /></div>');
+					$.post(ws+"a=resendQRconfirm", { qr_code: TempQR, fbid: fbid }, function(data) {
+						if (data.res == "OK") {
+							ajaxTickets = 0;
+							loadTickets();
+							navigator.notification.alert("QR Reenviado con éxito", function(){}, "Listo");
+						}
+						else {
+							navigator.notification.alert("No fue posible reenviar tu QR, es posible que la cuenta del usuario de destino no esté disponible", function(){}, "Error");
+						}
+						
+						$(".miseventos_qrlist").html(data.html);
+						scrolltickets.refresh();
+						scrolltickets.scrollTo(0,0);
+						zero();
+					},"json").fail(function () { out(); });
+	        	}
+	        },              
+	        'Transacción preparada',            
+	        'Confirmar,Cancelar'          
+	    );
+	}
 });
 
 
@@ -1190,8 +1228,8 @@ $(document).on("tap","#reenviarEmail",function(e) {
     $("#reenviar_email").show();
     $("#reenviar_fb").hide();
 
-    $("#reenviarFB").hide();
-    $("#reenviarEmail").show();
+    $("#reenviarFB").show();
+    $("#reenviarEmail").hide();
 
     $("#btn_resend_ok").show();
     $("#btn_resend_ok_fb").hide();
@@ -1232,10 +1270,10 @@ $(document).on("tap","#confirmarCompra",function(e) {
 	});
 	var codigoDescuento = $.trim($("#codigoDescuento").val());
 	if (codigoDescuento != "" && $("#codigoDescuento").attr('readonly')==false) {
-		console.log('confirm action con descuento');
 	    navigator.notification.confirm(
 	        'Tienes un codigo de descuento escrito, ¿quieres continuar sin aplicarlo?',  
-	        function() {
+	        function(bindex) {
+	          if (bindex == 1) {
 	        	$("#codigoDescuento").val('');
 				if (pagar>0 || sumas > 0) {
 					    navigator.notification.confirm(
@@ -1248,6 +1286,7 @@ $(document).on("tap","#confirmarCompra",function(e) {
 				else {
 					err('El total de compra debe ser mayor a cero');
 				}
+			  }
 	        },
 	        'Descuento no aplicado',            
 	        'Confirmar,Cancelar'          
