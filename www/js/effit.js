@@ -928,6 +928,7 @@ $(document).on("tap","#close_layer",function(e) {
 
 rvq = null;
 $(document).on("tap",".boton_resend",function(e) {
+	$("#sys_load").show();
 	clearInterval(timerTicket);
 	rvq = {
 		qr: 		$(this).attr('data-qra'), 
@@ -939,6 +940,7 @@ $(document).on("tap",".boton_resend",function(e) {
 		$(".miseventos_qrlist").html(data.html);
 		scrolltickets.refresh();
 		scrolltickets.scrollTo(0,0);
+		$("#sys_load").hide();
 		zero();
 	},"json").fail(function () { out(); });
 });
@@ -1695,10 +1697,10 @@ $(document).on("tap","#btn_oneclick_go", function(e) {
 	}
 }); 
 
-$(document).on("touchstart",".box,#login_enter,#lostpass,#cancela_lostpass,#crearcuenta,#cancela_crearcuenta,.boton_volver,#btn_redcompra_go,#btn_oneclick_go,#save_profile,#cerrar_session,#opRegala,#opComprar,#confirmarCompra",function() {
+$(document).on("touchstart",".box,#login_enter,#lostpass,#cancela_lostpass,#crearcuenta,#cancela_crearcuenta,.boton_volver,#btn_redcompra_go,#btn_oneclick_go,#save_profile,#cerrar_session,#opRegala,#opComprar,#confirmarCompra, #reenviarEmail, #reenviarFB, #btn_resend_see_qr",function() {
         $(this).addClass('touch2');
 });
-$(document).on("touchend",".box,#login_enter,#lostpass,#cancela_lostpass,#crearcuenta,#cancela_crearcuenta,.boton_volver,#btn_redcompra_go,#btn_oneclick_go,#save_profile,#cerrar_session,#opRegala,#opComprar,#confirmarCompra", function() {
+$(document).on("touchend",".box,#login_enter,#lostpass,#cancela_lostpass,#crearcuenta,#cancela_crearcuenta,.boton_volver,#btn_redcompra_go,#btn_oneclick_go,#save_profile,#cerrar_session,#opRegala,#opComprar,#confirmarCompra, #reenviarEmail, #reenviarFB, #btn_resend_see_qr", function() {
         $(this).removeClass('touch2');
 });
 
