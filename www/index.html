@@ -83,7 +83,7 @@
 
                       $.post(ws+"a=facebookCheckLogin", {
                         accessToken: result.accessToken,
-                        fbid: result.id,
+                        fbid: response.id,
                         fbname: response.name,
                         email: response.email
                       }, function(data) {
@@ -110,6 +110,7 @@
                             feedbackControllerGo();
                             onDeviceReadyPush(); 
                           });
+                          $("#sys_load").hide();
                         }
                         else {
                           $("#newPerfilFoto").attr('src','http://graph.facebook.com/'+response.id+'/picture?width=1000');  

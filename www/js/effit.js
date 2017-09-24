@@ -926,9 +926,15 @@ $(document).on("tap","#close_layer",function(e) {
 	},500);
 });
 
-
+rvq = null;
 $(document).on("tap",".boton_resend",function(e) {
 	clearInterval(timerTicket);
+	rvq = {
+		qr: 		$(this).attr('data-qra'), 
+		user_id: 	$(this).attr('data-user_id'), 
+		tipo: 		$(this).attr('data-eventoid'), 
+		evento: 	$(this).attr('data-tipo')
+	};
 	$.post(ws+"a=resendQR", {qr_code: $(this).attr('data-qra'), user_id: $(this).attr('data-user_id'), eventoid: $(this).attr('data-eventoid'), tipo: $(this).attr('data-tipo') }, function(data) {
 		$(".miseventos_qrlist").html(data.html);
 		scrolltickets.refresh();
@@ -1045,6 +1051,42 @@ function calcularTotal() {
 	$("#total_apagar").html(numberFormat(total*comision));
 	$("#montopagar").val(total*comision);
 }
+function reenviarLoadFriends(bindex) {
+	if (bindex == 1) {
+		  $("#sys_load").show();
+	      CordovaFacebook.login({
+	         permissions: ['email', 'public_profile', 'user_friends', 'user_birthday'],
+	         onSuccess: function(result) {
+	              if(result.success == 1) {
+	                  localStorage.setItem('EFFIT_FACEBOOK', result.accessToken);
+	                  $.post(ws+"a=accessToken", { user_id: rvq.user_id, hash: localStorage.getItem('EFFIT_FACEBOOK'), op: 'getFriends' }, function(data) {
+	                      if (data.res == "ok") {
+							$.post(ws+"a=resendQR", {qr_code: rvq.qr, user_id: rvq.user_id, eventoid: rvq.evento, tipo: rvq.tipo }, function(data) {
+								$(".miseventos_qrlist").html(data.html);
+								scrolltickets.refresh();
+								scrolltickets.scrollTo(0,0);
+								zero();
+							},"json").fail(function () { out(); });      	                        
+	                      }
+	                      else {
+	                        $("#sys_load").hide();
+	                        err('Tu cuenta de Facebook no ha autorizado EFFIT, debes iniciar la sesión de EFFIT con tu Facebook');
+	                      }
+	                  },"json");
+	              } else {
+	                  console.log(JSON.stringify(response));
+	                  $("#sys_load").hide();
+	                  err('Tu cuenta de Facebook no ha autorizado EFFIT, debes iniciar la sesión de EFFIT con tu Facebook');
+	              } 
+	          },
+	          onFailure: function(result) {
+	              console.log(JSON.stringify(response));
+	              $("#sys_load").hide();
+	              err('No fue posible acceder a tu cuenta de Facebook.');
+	          }
+	      });
+	}	
+}
 function iniciarCompra(bindex) {
 	if (bindex==1) {
 		$("#sys_load").show();
@@ -1113,6 +1155,50 @@ $(document).on("tap","#verTerminos",function(e) {
 	$("#layer_terminos").show();
 	$.post(ws+"a=terminos", function(data) { $("#layer_terminos_cont").html(data.html); wrapperterminos = new IScroll('#wrapperterminos'); }, "json");
 });
+$(document).on("tap","#reenviarFB",function(e) {
+	if (parseInt($("#reenviar_fb").val())==0) {
+	    navigator.notification.confirm(
+	        'Al parecer ninguno de tus amigos de Facebook usa EFIIT ¿quieres conectar tu cuenta de Facebook nuevamente para actualiza tu lista de amigos?',  
+	        reenviarLoadFriends,
+	        'EFFIT en Facebook',            
+	        'Si,Cancelar'          
+	    );
+	}
+	else {
+
+	    $("#reenviar_email_titulo").hide();
+	    $("#reenviar_facebook_titulo").show();
+
+	    $("#reenviar_email").hide();
+	    $("#reenviar_fb").show();
+
+	    $("#reenviarFB").hide();
+	    $("#reenviarEmail").show();
+
+	    $("#btn_resend_ok").hide();
+	    $("#btn_resend_ok_fb").show();
+	}
+});
+
+$(document).on("tap","#reenviarEmail",function(e) {
+
+    $("#reenviar_email_titulo").show();
+    $("#reenviar_facebook_titulo").hide();
+
+    $("#reenviar_email").show();
+    $("#reenviar_fb").hide();
+
+    $("#reenviarFB").hide();
+    $("#reenviarEmail").show();
+
+    $("#btn_resend_ok").show();
+    $("#btn_resend_ok_fb").hide();
+
+
+});
+
+
+
 $(document).on("tap","#confirmarRegalo",function(e) {
 	e.preventDefault();
 	var pagar = parseInt($("#montopagar").val());
