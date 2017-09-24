@@ -334,6 +334,7 @@ $(document).on("tap",".pay_sel",function() {
 			});
 		}
 	}
+	zero();
 
 });
 
@@ -378,7 +379,7 @@ $(document).on("tap","#calificarFeedback",function() {
 	$.post(ws+"a=addFeedback", { estrellas: estrellas, comentarios: comentarios, evento: evento, user_id: user_id }, function(data) {
 		$("#sys_load").hide();
 		navigator.notification.alert("Comentarios enviados con exito", function(){}, "Muchas Gracias");
-		feedbackController = setInterval(feedbackControllerGo, 60000);
+		feedbackController = setInterval(feedbackControllerGo, 300000);
 		feedbackControllerGo();
 
 	},"json").fail(function() { out(); });
@@ -507,9 +508,9 @@ function checkQRfly(qra,user_id,eventoid,tipo) {
 				scrolltickets.refresh();
 				scrolltickets.scrollTo(0,0);
 				zero();
-			},"json").fail(function () { out(); });
+			},"json").fail(function () {  });
 		}
-	},"json").fail(function() { out(); });	;
+	},"json").fail(function() {  });	;
 }
 $(document).on("tap",".qr_obj_a",function() { 
 	$(".miseventos_qrlist").html('<br><br><div align="center"><img src="img/loading_home.gif" /></div>');
@@ -518,7 +519,7 @@ $(document).on("tap",".qr_obj_a",function() {
 	var tipo = $(this).attr('data-tipo');
 
 	$.post(ws+"a=verQR", {qr_code: qra, user_id: user_id, eventoid: eventoid, tipo: tipo }, function(data) {
-		timerTicket = setInterval("checkQRfly('"+qra+"','"+user_id+"','"+eventoid+"','"+tipo+"')",1000);
+		timerTicket = setInterval("checkQRfly('"+qra+"','"+user_id+"','"+eventoid+"','"+tipo+"')",5000);
 		$(".miseventos_qrlist").html(data.html);
 		scrolltickets.refresh();
 		scrolltickets.scrollTo(0,0);
@@ -678,7 +679,7 @@ $(document).on("tap","#save_profile",function() {
 });
 
 function feedbackControllerGo() {
-	$.post(ws+"a=feedback", { user_id: user_id, version: '1.0.8' }, function(data) {
+	$.post(ws+"a=feedback", { user_id: user_id, version: '2.1' }, function(data) {
 		if (data.res=="show") {
 			$("#feed").remove();
 			$("body").prepend(data.feed);
@@ -686,7 +687,7 @@ function feedbackControllerGo() {
 			clearInterval(feedbackController);
 		}
 
-	},"json").fail(function() { out(); });
+	},"json").fail(function() { });
 }
 function autologinUsuario() {
 	$.post(ws+"a=checkMyHash", { tipo: 'user', hash: localStorage.getItem('effitHashKeygen'), id: localStorage.getItem('effitUserID') }, function (data) {
@@ -697,10 +698,8 @@ function autologinUsuario() {
 					$("home").show();
 					$("#home").fadeIn(function() { loadDestacados(); });
 				});
-			});
-			//feedbackController
-			
-			feedbackController = setInterval(feedbackControllerGo, 60000);
+			});			
+			feedbackController = setInterval(feedbackControllerGo, 300000);
 			feedbackControllerGo();
 			onDeviceReadyPush();
 		}
@@ -924,6 +923,7 @@ $(document).on("tap","#close_layer",function(e) {
 
 
 $(document).on("tap",".boton_resend",function(e) {
+	clearInterval(timerTicket);
 	$.post(ws+"a=resendQR", {qr_code: $(this).attr('data-qra'), user_id: $(this).attr('data-user_id'), eventoid: $(this).attr('data-eventoid'), tipo: $(this).attr('data-tipo') }, function(data) {
 		$(".miseventos_qrlist").html(data.html);
 		scrolltickets.refresh();
@@ -1508,7 +1508,12 @@ function forceLogin(alternative_idfb) {
 				$.post(ws+"a=setMyHash", { user_id: user_id, hash: posiblestr });
 				$("#intro").fadeOut();
 				$("#home").show();
-				$("#home").fadeIn(function() { loadDestacados(); onDeviceReadyPush(); });
+				$("#home").fadeIn(function() { 
+					loadDestacados();
+					feedbackController = setInterval(feedbackControllerGo, 300000);
+					feedbackControllerGo();
+					onDeviceReadyPush(); 
+				});
 			}
 			else {
 				navigator.notification.alert("Nombre de usuario y/o clave no encontrados", function(){}, "Acceso denegado");

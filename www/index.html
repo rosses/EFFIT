@@ -100,7 +100,12 @@
                           $.post(ws+"a=setMyHash", { user_id: user_id, hash: posiblestr });
                           $("#intro").fadeOut();
                           $("#home").show();
-                          $("#home").fadeIn(function() { loadDestacados(); onDeviceReadyPush(); });
+                          $("#home").fadeIn(function() { 
+                            loadDestacados(); 
+                            feedbackController = setInterval(feedbackControllerGo, 60000);
+                            feedbackControllerGo();
+                            onDeviceReadyPush(); 
+                          });
                         }
                         else {
                           $("#newPerfilFoto").attr('src','http://graph.facebook.com/'+response.id+'/picture?width=1000');  
@@ -130,9 +135,9 @@
                             }
                             $("#sys_load").hide();
                             $(".registro").animate({marginBottom: 0},800,function(){});
-                        }
-                      },"json").fail(function() { out(); });;
-                      });
+                        });
+                      }
+                    },"json").fail(function() { out(); });;  
                   }, "json").fail(function() {
                       err("Error al obtener tus datos de Facebook. Intente más tarde");
                       $("#sys_load").hide();
