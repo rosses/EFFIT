@@ -30,9 +30,6 @@
     <script type="text/javascript" src="js/fastclick.js"></script>
     <script type="text/javascript" src="js/slick.min.js"></script>
     <script type="text/javascript" src="js/effit.js"></script>
-    <script type="text/javascript" src="PushNotification.js"></script>
-    <script type="text/javascript" src="js/facebookConnectPlugin.js"></script>
-    <!--<script type="text/javascript" src="openfb.js"></script>-->
     
   <script type="text/javascript">
     var FB_Login_Gift = function() {
@@ -79,34 +76,62 @@
               }
               else if (result.success == 1) {
                   $.get("https://graph.facebook.com/me?fields=first_name,id,email,last_name,name,picture,birthday,gender&access_token="+result.accessToken, {},function (response) {
-                      $("#newPerfilFoto").attr('src','http://graph.facebook.com/'+response.id+'/picture?width=1000');  
-                      $("#newPerfilFotoFbk").val('http://graph.facebook.com/'+response.id+'/picture?width=1000');  
-                      $("#newPerfilIdFbk").val(response.id);
-                      $("#newPerfilNameFbk").val(response.name);
-                      $("#newPerfilTokenFbk").val(localStorage.getItem('EFFIT_FACEBOOK'));
-                      $(".login").animate({marginBottom: "-272px"},500,function(){
-                        $("#registro_nombre").val(response.first_name);
-                        $("#registro_apellido").val(response.last_name);
-                        $("#registro_email").val(response.email);
-                        if (response.birthday) {
-                          var spl = response.birthday.split('/');
-                          $("#registro_nac_dia").val(spl[1]);
-                          $("#registro_nac_mes").val(spl[0]);
-                          $("#registro_nac_ano").val(spl[2]);
+
+                      $.post(ws+"a=facebookCheckLogin", {
+                        accessToken: result.accessToken,
+                        fbid: result.id,
+                        fbname: response.name,
+                        email: response.email
+                      }, function(data) {
+                        if (data.res == "OK") {
+
+                          user_id = data.user.id;
+                          var len = 20, posiblestr = '';
+
+                          while( len-- ) {
+                              posiblestr += String.fromCharCode( 48 + ~~(Math.random() * 42) );
+                          }
+
+                          posiblestr += user_id;
+                          localStorage.setItem('effitUserID', user_id);
+                          localStorage.setItem('effitHashKeygen', posiblestr);
+                          localStorage.setItem('EFFIT_FACEBOOK', result.accessToken);
+                          
+                          $.post(ws+"a=setMyHash", { user_id: user_id, hash: posiblestr });
+                          $("#intro").fadeOut();
+                          $("#home").show();
+                          $("#home").fadeIn(function() { loadDestacados(); onDeviceReadyPush(); });
                         }
-                        if (response.gender) {
-                          if (response.gender == "male") {
-                            $("[data-val='M']").addClass('activo');
-                            $("#registro_sexo").val('M');
-                          } 
-                          if (response.gender == "female") {
-                            $("[data-val='F']").addClass('activo');
-                            $("#registro_sexo").val('F');
-                          } 
+                        else {
+                          $("#newPerfilFoto").attr('src','http://graph.facebook.com/'+response.id+'/picture?width=1000');  
+                          $("#newPerfilFotoFbk").val('http://graph.facebook.com/'+response.id+'/picture?width=1000');  
+                          $("#newPerfilIdFbk").val(response.id);
+                          $("#newPerfilNameFbk").val(response.name);
+                          $("#newPerfilTokenFbk").val(localStorage.getItem('EFFIT_FACEBOOK'));
+                          $(".login").animate({marginBottom: "-272px"},500,function(){
+                            $("#registro_nombre").val(response.first_name);
+                            $("#registro_apellido").val(response.last_name);
+                            $("#registro_email").val(response.email);
+                            if (response.hasOwnProperty("birthday")) {
+                              var spl = response.birthday.split('/');
+                              $("#registro_nac_dia").val(spl[1]);
+                              $("#registro_nac_mes").val(spl[0]);
+                              $("#registro_nac_ano").val(spl[2]);
+                            }
+                            if (response.hasOwnProperty("gender")) {
+                              if (response.gender == "male") {
+                                $("[data-val='M']").addClass('activo');
+                                $("#registro_sexo").val('M');
+                              } 
+                              if (response.gender == "female") {
+                                $("[data-val='F']").addClass('activo');
+                                $("#registro_sexo").val('F');
+                              } 
+                            }
+                            $("#sys_load").hide();
+                            $(".registro").animate({marginBottom: 0},800,function(){});
                         }
-                        $("#sys_load").hide();
-                        $(".registro").animate({marginBottom: 0},800,function(){});
-                        $("#sys_load").hide();
+                      },"json").fail(function() { out(); });;
                       });
                   }, "json").fail(function() {
                       err("Error al obtener tus datos de Facebook. Intente más tarde");

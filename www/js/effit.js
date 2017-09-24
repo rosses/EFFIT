@@ -379,8 +379,9 @@ $(document).on("tap","#calificarFeedback",function() {
 		$("#sys_load").hide();
 		navigator.notification.alert("Comentarios enviados con exito", function(){}, "Muchas Gracias");
 		feedbackController = setInterval(feedbackControllerGo, 60000);
+		feedbackControllerGo();
 
-	},"json").fail(function() { out(); });	;
+	},"json").fail(function() { out(); });
 });
 $(document).on("tap",".marcaEstrellas",function() {
 	var n = $(this).attr('data-n');
@@ -698,7 +699,9 @@ function autologinUsuario() {
 				});
 			});
 			//feedbackController
+			
 			feedbackController = setInterval(feedbackControllerGo, 60000);
+			feedbackControllerGo();
 			onDeviceReadyPush();
 		}
 		else {
