@@ -4,31 +4,38 @@
   <author href="http://www.effitapp.com" email="effit@effitapp.com">EFFIT</author>
   <content src="index.html"/>
   <preference name="phonegap-version" value="cli-6.4.0" />
-  <preference name="permissions" value="none"/>
-  <preference name="orientation" value="portrait"/>
-  <preference name="target-device" value="handset"/>
-  <preference name="fullscreen" value="false"/>
-  <preference name="webviewbounce" value="false"/>
-  <preference name="prerendered-icon" value="true"/>
-  <preference name="stay-in-webview" value="false"/>
-  <preference name="UIWebViewBounce" value="false" />
-  <preference name="ios-statusbarstyle" value="default"/>
-  <preference name="StatusBarStyle" value="lightcontent" />
-  
-  <preference name="DisallowOverscroll" value="false" />
-  
-  <preference name="detect-data-types" value="true"/>
-  <preference name="exit-on-suspend" value="false"/>
-  <preference name="disable-cursor" value="false"/>
-  <preference name="android-minSdkVersion" value="17"/>
-  <preference name="android-installLocation" value="auto"/>
-  <preference name="android-build-tool" value="gradle" />
-  <preference name="KeyboardShrinksView" value="true" />
 
-  <preference name="SplashScreenDelay" value="0"/>
-  <preference name="FadeSplashScreenDuration" value="0"/>
+  <preference name="fullscreen" value="false" />  <!-- shkrink resize for android -->
+  <preference name="webviewbounce" value="false"/>
+  <preference name="UIWebViewBounce" value="false"/>
+
+  <!-- Splashscreen full -->
+  <preference name="AutoHideSplashScreen" value="true" />
+  <preference name="ShowSplashScreenSpinner" value="false" />
+
+  <!--disable android -->
+  <preference name="SplashScreenDelay" value="0" />
+  <preference name="SplashScreen" value="none" />
+
+  <!-- splash off IOS -->
   <preference name="FadeSplashScreen" value="false"/>
-  <preference name="ShowSplashScreenSpinner" value="false"/>
+  <preference name="FadeSplashScreenDuration" value="0"/>
+
+  <preference name="android-minSdkVersion" value="18" /> 
+  <preference name="android-targetSdkVersion" value="20" />
+
+  <preference name="BackupWebStorage" value="none"/>
+  <preference name="permissions" value="none"/>
+  <preference name="Orientation" value="portrait" />
+
+  <preference name="StatusBarOverlaysWebView" value="true" />
+  <preference name="StatusBarStyle" value="lightcontent" />
+  <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+  <preference name="android-build-tool" value="gradle" />
+
+  <preference name="exit-on-suspend" value="false"/>
+  <preference name="android-windowSoftInputMode" value="stateHidden|adjustResize" />
+  <preference name="KeyboardShrinksView" value="true" />
 
 
   <plugin name="cordova-plugin-console"/>
@@ -46,10 +53,11 @@
   <plugin spec="https://github.com/macdonst/TelephoneNumberPlugin.git" source="git" />
   <plugin spec="https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin.git" source="git" />
   <plugin name="phonegap-plugin-push" spec="1.5.3">
-      <param name="SENDER_ID" value="1:675811024957:android:26962be5cee8e50b" />
+      <param name="SENDER_ID" value="675811024957" />
   </plugin>
   <plugin name="phonegap-plugin-barcodescanner" />
-  <plugin name="cordova-plugin-whitelist" source="npm" />
+
+  <plugin name="cordova-plugin-whitelist" spec="1" />
   <plugin name="cordova-plugin-app-version" />
 
   <plugin name="cordova-plugin-facebook">
@@ -58,6 +66,7 @@
     <param name="FACEBOOK_DISPLAY_NAME" value="EFFIT" />
     <param name="APP_NAME" value="EFFIT" />
   </plugin>
+  <plugin name="cordova-plugin-splashscreen" />
   <plugin name="cordova-plugin-media-capture" source="npm" spec="*">
     <variable name="CAMERA_USAGE_DESCRIPTION" value="App would like to access the camera." />
     <variable name="MICROPHONE_USAGE_DESCRIPTION" value="App would like to access the microphone." />
@@ -69,9 +78,10 @@
   <icon src="res/icon/ios/icon-72.png"            platform="ios"        width="72" height="72" />
   <icon src="res/icon/ios/icon-57-2x.png"         platform="ios"        width="114" height="114" />
   <icon src="res/icon/ios/icon-72-2x.png"         platform="ios"        width="144" height="144" />
-  <icon src="res/icon/ios/icon-120.png"         platform="ios"        width="120" height="120" />
-  <icon src="res/icon/ios/icon-76.png"         platform="ios"        width="76" height="76" />
-  <icon src="res/icon/ios/icon-152.png"         platform="ios"        width="152" height="152" />
+  <icon src="res/icon/ios/icon-120.png"           platform="ios"        width="120" height="120" />
+  <icon src="res/icon/ios/icon-76.png"            platform="ios"        width="76" height="76" />
+  <icon src="res/icon/ios/icon-152.png"           platform="ios"        width="152" height="152" />
+  <icon src="res/icon/ios/icon-180.png"           platform="ios"        width="180" height="180" />
 <!--
   <icon src="ldpi.png"                            platform="android"        qualifier="ldpi" />
   <icon src="mdpi.png"                            platform="android"        qualifier="mdpi" />
@@ -85,6 +95,8 @@
   <splash src="res/screen/ios/screen-iphone-portrait.png"         platform="ios"      width="320" height="480" />
   <splash src="res/screen/ios/screen-iphone-portrait-2x.png"      platform="ios"      width="640" height="960" />
   <splash src="res/screen/ios/screen-iphone-portrait-568h-2x.png" platform="ios"      width="640" height="1136" />
+  <splash src="res/screen/ios/screen-iphone-portrait-750.png" platform="ios"      width="750" height="1334" />
+  <splash src="res/screen/ios/screen-iphone-portrait-1242.png" platform="ios"      width="1242" height="2208" />
   <splash src="res/screen/ios/screen-ipad-landscape.png"      platform="ios"      width="1024" height="768"/>
   
   
@@ -92,7 +104,8 @@
   <splash src="mdpi.png" platform="android" qualifier="mdpi" />
   <splash src="hdpi.png" platform="android" qualifier="hdpi" />
   <splash src="xhdpi.png" platform="android" qualifier="xhdpi" />
-  
+
+  <splash src="splash.png" />
   <!--
   <splash src="fr-xhdpi.png" platform="android" qualifier="fr-xhdpi" />
   <splash src="portrait-xxhdpi.png" platform="android" qualifier="port-xxhdpi" />
@@ -257,9 +270,5 @@
   <feature name="Camera">
       <param name="android-package" value="cordova-plugin-CameraLauncher" />
   </feature>
-  <!--
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.CAMERA"/>
-  -->
-  <plugin name="cordova-plugin-splashscreen"/>
+
 </widget>

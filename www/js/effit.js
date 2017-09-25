@@ -47,6 +47,11 @@ function getPhoto(source) {
 }
 document.addEventListener('deviceready', function() {
   navigator.splashscreen.hide();
+
+  Keyboard.hideFormAccessoryBar(true);
+  Keyboard.disableScrollingInShrinkView(true);
+  Keyboard.shrinkView(true);
+
   //pictureSource = navigator.camera.PictureSourceType;
   //destinationType = navigator.camera.DestinationType;
 });
