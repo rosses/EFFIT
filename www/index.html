@@ -102,14 +102,18 @@
                           localStorage.setItem('EFFIT_FACEBOOK', result.accessToken);
                           
                           $.post(ws+"a=setMyHash", { user_id: user_id, hash: posiblestr });
-                          $("#intro").fadeOut();
-                          $("#home").show();
-                          $("#home").fadeIn(function() { 
-                            loadDestacados(); 
-                            $('#sys_foot_ul')[0].slick.refresh();
-                            feedbackController = setInterval(feedbackControllerGo, 60000);
-                            feedbackControllerGo();
-                            onDeviceReadyPush(); 
+                          $(".loading_home").fadeOut('slow',function() {
+                            $("#intro").fadeOut();
+                            $("#home").show();
+                            $("#home").fadeIn(function() { 
+                              $('#sys_foot_ul')[0].slick.refresh(); 
+                              carousel.slickGoTo(1); 
+                              loadDestacados(); 
+                              zero();
+                              feedbackController = setInterval(feedbackControllerGo, 300000);
+                              feedbackControllerGo();
+                              onDeviceReadyPush(); 
+                            });
                           });
                           $("#sys_load").hide();
                         }

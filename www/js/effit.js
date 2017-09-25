@@ -694,14 +694,18 @@ function autologinUsuario() {
 		if (data.res=="ok"){
 			user_id = localStorage.getItem('effitUserID');
 			$(".loading_home").fadeOut('slow',function() {
-				$("#intro").fadeOut('fast',function() {
-					$("home").show();
-					$("#home").fadeIn(function() { loadDestacados(); $('#sys_foot_ul')[0].slick.refresh(); });
+				$("#intro").fadeOut();
+				$("#home").show();
+				$("#home").fadeIn(function() { 
+					$('#sys_foot_ul')[0].slick.refresh(); 
+					carousel.slickGoTo(1); 
+					loadDestacados(); 
+					zero();
+					feedbackController = setInterval(feedbackControllerGo, 300000);
+					feedbackControllerGo();
+					onDeviceReadyPush(); 
 				});
-			});			
-			feedbackController = setInterval(feedbackControllerGo, 300000);
-			feedbackControllerGo();
-			onDeviceReadyPush();
+			});
 		}
 		else {
 			$(".loading_home").fadeOut('slow');
@@ -1212,8 +1216,8 @@ $(document).on("tap","#reenviarFB",function(e) {
 	    $("#reenviar_email").hide();
 	    $("#reenviar_fb").show();
 
-	    $("#reenviarFB").hide();
-	    $("#reenviarEmail").show();
+	    $("#reenviarFB").addClass("o5");
+	    $("#reenviarEmail").removeClass("o5");
 
 	    $("#btn_resend_ok").hide();
 	    $("#btn_resend_ok_fb").show();
@@ -1228,8 +1232,8 @@ $(document).on("tap","#reenviarEmail",function(e) {
     $("#reenviar_email").show();
     $("#reenviar_fb").hide();
 
-    $("#reenviarFB").show();
-    $("#reenviarEmail").hide();
+    $("#reenviarFB").removeClass("o5");
+    $("#reenviarEmail").addClass("o5");
 
     $("#btn_resend_ok").show();
     $("#btn_resend_ok_fb").hide();
@@ -1643,8 +1647,10 @@ function forceLogin(alternative_idfb) {
 				$("#intro").fadeOut();
 				$("#home").show();
 				$("#home").fadeIn(function() { 
-					loadDestacados();
-					$('#sys_foot_ul')[0].slick.refresh();
+					$('#sys_foot_ul')[0].slick.refresh(); 
+					carousel.slickGoTo(1); 
+					loadDestacados(); 
+					zero();
 					feedbackController = setInterval(feedbackControllerGo, 300000);
 					feedbackControllerGo();
 					onDeviceReadyPush(); 
