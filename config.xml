@@ -1,4 +1,4 @@
-  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.effit.app" version="2.1.1">
+  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.effit.app" version="2.2.1">
   <name>EFFIT</name>
   <description>Con EFFIT, olvida el dinero en tus eventos. Paga todo con tu celular.</description>
   <author href="http://www.effitapp.com" email="effit@effitapp.com">EFFIT</author>
@@ -22,7 +22,7 @@
   <preference name="FadeSplashScreenDuration" value="0"/>
 
   <preference name="android-minSdkVersion" value="18" /> 
-  <preference name="android-targetSdkVersion" value="20" />
+  <preference name="android-targetSdkVersion" value="24" />
 
   <preference name="BackupWebStorage" value="none"/>
   <preference name="permissions" value="none"/>

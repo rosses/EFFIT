@@ -684,7 +684,7 @@ $(document).on("tap","#save_profile",function() {
 });
 
 function feedbackControllerGo() {
-	$.post(ws+"a=feedback", { user_id: user_id, version: '2.1' }, function(data) {
+	$.post(ws+"a=feedback", { user_id: user_id, version: '2.2' }, function(data) {
 		if (data.res=="show") {
 			$("#feed").remove();
 			$("body").prepend(data.feed);
