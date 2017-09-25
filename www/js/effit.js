@@ -1444,11 +1444,12 @@ $(document).on("tap","#opRegala",function() {
 function regalarMetodo(token,user_id) {
 	$.post(ws+"a=regalar", {id: eventoActivo, user_id: user_id, hash: token }, function(data) {
 		if (data.res == "ok") {
-			$("#layer_regalar_cont").html(data.html).imagesLoaded().done(function() {
-				scrollregalar = new IScroll('#wrapperregalar');
-				$("#sys_load").hide();
-				scrollregalar.refresh();
-			});
+			$("#layer_regalar_cont").html(data.html);
+			//.imagesLoaded().done(function() {
+			scrollregalar = new IScroll('#wrapperregalar');
+			$("#sys_load").hide();
+			scrollregalar.refresh();
+			//});
 		}
 		else {
 			$("#sys_load").hide();
@@ -1485,10 +1486,10 @@ $(document).on("tap","#opComprar",function() {
 	var id = $(this).attr('data-evento');
 	$.post(ws+"a=comprar", {id: id, user_id: user_id}, function(data) {
 		if (data.res == "ok") {
-			$("#layer_comprar_cont").html(data.html).imagesLoaded().done(function() {
-				scrollcomprar = new IScroll('#wrappercomprar');	
-				$("#sys_load").hide();
-			});
+			$("#layer_comprar_cont").html(data.html);//.imagesLoaded().done(function() {
+			scrollcomprar = new IScroll('#wrappercomprar');	
+			$("#sys_load").hide();
+			//});
 		}
 		else {
 			$("#sys_load").hide();
