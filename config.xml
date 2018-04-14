@@ -68,7 +68,7 @@
     <param name="APP_NAME" value="EFFIT" />
     <variable name="APP_NAME" value="EFFIT" />
   </plugin>
-  <plugin name="cordova-android-support-gradle-release" spec="^1.1.5">
+  <plugin name="cordova-android-support-gradle-release">
       <variable name="ANDROID_SUPPORT_VERSION" value="27.+" />
       <param name="ANDROID_SUPPORT_VERSION" value="27.+" />
   </plugin>
