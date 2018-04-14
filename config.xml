@@ -69,8 +69,8 @@
     <variable name="APP_NAME" value="EFFIT" />
   </plugin>
   <plugin name="cordova-android-support-gradle-release" spec="^1.1.5">
-      <variable name="ANDROID_SUPPORT_VERSION" value="23.+" />
-      <param name="ANDROID_SUPPORT_VERSION" value="23.+" />
+      <variable name="ANDROID_SUPPORT_VERSION" value="26.+" />
+      <param name="ANDROID_SUPPORT_VERSION" value="26.+" />
   </plugin>
   <plugin name="cordova-plugin-splashscreen" />
   <plugin name="cordova-plugin-media-capture" source="npm" spec="*">
