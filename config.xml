@@ -68,6 +68,10 @@
     <param name="APP_NAME" value="EFFIT" />
     <variable name="APP_NAME" value="EFFIT" />
   </plugin>
+  <plugin name="cordova-android-support-gradle-release" spec="^1.1.5">
+      <variable name="ANDROID_SUPPORT_VERSION" value="23.+" />
+      <param name="ANDROID_SUPPORT_VERSION" value="23.+" />
+  </plugin>
   <plugin name="cordova-plugin-splashscreen" />
   <plugin name="cordova-plugin-media-capture" source="npm" spec="*">
     <variable name="CAMERA_USAGE_DESCRIPTION" value="App would like to access the camera." />
