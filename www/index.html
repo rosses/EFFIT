@@ -43,7 +43,7 @@
       //err('No es posible conectar con tu cuenta Facebook. Intentalo más tarde');
       $("#sys_load").show();
 
-      facebookConnectPlugin.login(['email', 'public_profile', 'user_friends', 'user_birthday'],
+      facebookConnectPlugin.login(['email', 'public_profile', 'user_friends'],
          function(result) {
               if(result.status == "connected") {
                   localStorage.setItem('EFFIT_FACEBOOK', result.authResponse.accessToken);
@@ -77,7 +77,7 @@
     };
     var FB_Login_Register = function () {
         $("#sys_load").show();
-        facebookConnectPlugin.login(['email', 'public_profile', 'user_friends', 'user_birthday'],
+        facebookConnectPlugin.login(['email', 'public_profile', 'user_friends'],
            function(result) {
               if (result.status == "connected") {
 

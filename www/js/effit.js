@@ -1103,7 +1103,7 @@ function calcularTotal() {
 function reenviarLoadFriends(bindex) {
 	if (bindex == 1) {
 		  $("#sys_load").show();
-	      CordovaFacebook.login(['email', 'public_profile', 'user_friends', 'user_birthday'],
+	      CordovaFacebook.login(['email', 'public_profile', 'user_friends'],
 	         function(result) {
 	              if(result.status == "connected") {
 	                  localStorage.setItem('EFFIT_FACEBOOK', result.authResponse.accessToken);
