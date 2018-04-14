@@ -70,7 +70,7 @@
     };
     var FB_Login_Register = function () {
         $("#sys_load").show();
-        facebookConnectPlugin.login('email', 'public_profile', 'user_friends', 'user_birthday'],
+        facebookConnectPlugin.login(['email', 'public_profile', 'user_friends', 'user_birthday'],
            function(result) {
               if (result.status == "connected") {
 
