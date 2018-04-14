@@ -1132,7 +1132,7 @@ function reenviarLoadFriends(bindex) {
 	              $("#sys_load").hide();
 	              err('No fue posible acceder a tu cuenta de Facebook.');
 	          }
-	      });
+	      );
 	}	
 }
 function iniciarCompra(bindex) {
