@@ -36,16 +36,15 @@
       //err('No es posible conectar con tu cuenta Facebook. Intentalo más tarde');
       $("#sys_load").show();
 
-      CordovaFacebook.login({
-         permissions: ['email', 'public_profile', 'user_friends', 'user_birthday'],
-         onSuccess: function(result) {
-              if(result.success == 1) {
-                  localStorage.setItem('EFFIT_FACEBOOK', result.accessToken);
+      facebookConnectPlugin.login(['email', 'public_profile', 'user_friends', 'user_birthday'],
+         function(result) {
+              if(result.status == "connected") {
+                  localStorage.setItem('EFFIT_FACEBOOK', result.authResponse.accessToken);
                   $.post(ws+"a=accessToken", { user_id: user_id, hash: localStorage.getItem('EFFIT_FACEBOOK'), op: 'getFriends' }, function(data) {
                       if (data.res == "ok") {
                         $("#sys_load").hide();
                         if (cb == "regala") {
-                          regalarMetodo(result.accessToken, user_id);  
+                          regalarMetodo(result.authResponse.accessToken, user_id);  
                         }
                         
                       }
@@ -62,7 +61,7 @@
                   err('Tu cuenta de Facebook no ha autorizado EFFIT, debes iniciar la sesión de EFFIT con tu Facebook');
               } 
           },
-          onFailure: function(result) {
+          function(result) {
               console.log(JSON.stringify(response));
               $("#sys_load").hide();
               err('No fue posible acceder a tu cuenta de Facebook.');
@@ -71,18 +70,14 @@
     };
     var FB_Login_Register = function () {
         $("#sys_load").show();
-        CordovaFacebook.login({
-           permissions: ['email', 'public_profile', 'user_friends', 'user_birthday'],
-           onSuccess: function(result) {
-              if(result.declined.length > 2) {
-                 err('Se ha rechazado la conexión con Facebook');
-              }
-              else if (result.success == 1) {
+        facebookConnectPlugin.login('email', 'public_profile', 'user_friends', 'user_birthday'],
+           function(result) {
+              if (result.status == "connected") {
 
-                  $.get("https://graph.facebook.com/me?fields=first_name,id,email,last_name,name,picture,birthday,gender&access_token="+result.accessToken, {},function (response) {
+                  $.get("https://graph.facebook.com/me?fields=first_name,id,email,last_name,name,picture,birthday,gender&access_token="+result.authResponse.accessToken, {},function (response) {
 
                       $.post(ws+"a=facebookCheckLogin", {
-                        accessToken: result.accessToken,
+                        accessToken: result.authResponse.accessToken,
                         fbid: response.id,
                         fbname: response.name,
                         email: response.email
@@ -99,7 +94,7 @@
                           posiblestr += user_id;
                           localStorage.setItem('effitUserID', user_id);
                           localStorage.setItem('effitHashKeygen', posiblestr);
-                          localStorage.setItem('EFFIT_FACEBOOK', result.accessToken);
+                          localStorage.setItem('EFFIT_FACEBOOK', result.authResponse.accessToken);
                           
                           $.post(ws+"a=setMyHash", { user_id: user_id, hash: posiblestr });
                           $(".loading_home").fadeOut('slow',function() {
@@ -158,13 +153,9 @@
                 $("#sys_load").hide();
               }
            },
-           onFailure: function(result) {
+           function(result) {
               $("#sys_load").hide();
-              if(result.cancelled) {
-                 err("EFFIT no está autorizada en tu Facebook. No puedes conectarte vía Facebook");
-              } else if(result.error) {
-                 err("Error: " + result.errorLocalized);
-              }
+              err("EFFIT no está autorizada en tu Facebook. No puedes conectarte vía Facebook");
            }
         });
     };

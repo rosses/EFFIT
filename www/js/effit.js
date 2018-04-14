@@ -1103,11 +1103,10 @@ function calcularTotal() {
 function reenviarLoadFriends(bindex) {
 	if (bindex == 1) {
 		  $("#sys_load").show();
-	      CordovaFacebook.login({
-	         permissions: ['email', 'public_profile', 'user_friends', 'user_birthday'],
-	         onSuccess: function(result) {
-	              if(result.success == 1) {
-	                  localStorage.setItem('EFFIT_FACEBOOK', result.accessToken);
+	      CordovaFacebook.login(['email', 'public_profile', 'user_friends', 'user_birthday'],
+	         function(result) {
+	              if(result.status == "connected") {
+	                  localStorage.setItem('EFFIT_FACEBOOK', result.authResponse.accessToken);
 	                  $.post(ws+"a=accessToken", { user_id: rvq.user_id, hash: localStorage.getItem('EFFIT_FACEBOOK'), op: 'getFriends' }, function(data) {
 	                      if (data.res == "ok") {
 							$.post(ws+"a=resendQR", {qr_code: rvq.qr, user_id: rvq.user_id, eventoid: rvq.evento, tipo: rvq.tipo }, function(data) {
@@ -1128,7 +1127,7 @@ function reenviarLoadFriends(bindex) {
 	                  err('Tu cuenta de Facebook no ha autorizado EFFIT, debes iniciar la sesión de EFFIT con tu Facebook');
 	              } 
 	          },
-	          onFailure: function(result) {
+	          function(result) {
 	              console.log(JSON.stringify(response));
 	              $("#sys_load").hide();
 	              err('No fue posible acceder a tu cuenta de Facebook.');
