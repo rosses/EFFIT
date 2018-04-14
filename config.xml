@@ -60,7 +60,7 @@
   <plugin name="cordova-plugin-whitelist" spec="1" />
   <plugin name="cordova-plugin-app-version" />
 
-  <plugin name="cordova-plugin-facebook4">
+  <plugin spec="https://github.com/tallevi12/cordova-plugin-facebook4.git" source="git">
     <param name="FACEBOOK_APP_ID" value="228801530792772" />
     <param name="APP_ID" value="228801530792772" />
     <variable name="APP_ID" value="228801530792772" />
