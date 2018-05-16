@@ -47,7 +47,7 @@ function getPhoto(source) {
 }
 document.addEventListener('deviceready', function() {
   navigator.splashscreen.hide();
-  Keyboard.hideFormAccessoryBar(true);
+  Keyboard.hideFormAccessoryBar(false);
   Keyboard.disableScrollingInShrinkView(true);
   Keyboard.shrinkView(true);
   //pictureSource = navigator.camera.PictureSourceType;
