@@ -47,11 +47,11 @@ function getPhoto(source) {
 }
 document.addEventListener('deviceready', function() {
   navigator.splashscreen.hide();
-
+/*
   Keyboard.hideFormAccessoryBar(true);
   Keyboard.disableScrollingInShrinkView(true);
   Keyboard.shrinkView(true);
-
+*/
   //pictureSource = navigator.camera.PictureSourceType;
   //destinationType = navigator.camera.DestinationType;
 });
@@ -1938,9 +1938,3 @@ window.addEventListener('message',function(event) {
 	eval('('+event.data+')();');
 },false);
 
-
-window.addEventListener('native.keyboardshow', function(e){ 
-    setTimeout(function() {
-        document.activeElement.scrollIntoViewIfNeeded();
-    }, 100);
-});
