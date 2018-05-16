@@ -47,9 +47,9 @@ function getPhoto(source) {
 }
 document.addEventListener('deviceready', function() {
   navigator.splashscreen.hide();
-  cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-  cordova.plugins.Keyboard.disableScroll(true);
-  cordova.plugins.Keyboard.shrinkView(true);
+  Keyboard.hideFormAccessoryBar(true);
+  Keyboard.disableScrollingInShrinkView(true);
+  Keyboard.shrinkView(true);
   //pictureSource = navigator.camera.PictureSourceType;
   //destinationType = navigator.camera.DestinationType;
 });
@@ -1936,3 +1936,11 @@ window.addEventListener('message',function(event) {
 	eval('('+event.data+')();');
 },false);
 
+
+window.addEventListener("resize", function(){
+  if(document.activeElement.tagName=="INPUT"){
+     window.setTimeout(function(){
+        document.activeElement.scrollIntoViewIfNeeded();
+     },0);
+  }
+})
