@@ -35,11 +35,9 @@
   <preference name="android-build-tool" value="gradle" />
 
   <preference name="exit-on-suspend" value="false"/>
-  <preference name="KeyboardShrinksView" value="true" />
 
-  <preference name="KeyboardResize" value="true" />
-  <preference name="KeyboardResizeMode" value="native" />
 
+  <plugin name="cordova-plugin-ionic-keyboard"/>
   <plugin name="cordova-plugin-console"/>
   <plugin name="cordova-plugin-device"/>
   <plugin name="cordova-plugin-device-motion"/>
@@ -58,6 +56,10 @@
       <param name="SENDER_ID" value="675811024957" />
   </plugin>
   <plugin name="phonegap-plugin-barcodescanner" />
+
+  <preference name="KeyboardShrinksView" value="true" />
+  <preference name="KeyboardResize" value="true" />
+  <preference name="KeyboardResizeMode" value="native" />
 
   <plugin name="cordova-plugin-whitelist" spec="1" />
   <plugin name="cordova-plugin-app-version" />
