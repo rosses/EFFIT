@@ -30,7 +30,7 @@
 
   <preference name="StatusBarOverlaysWebView" value="true" />
   <preference name="StatusBarStyle" value="lightcontent" />
-  <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize" />
+  <preference name="android-windowSoftInputMode" value="adjustResize" />
   <preference name="AndroidPersistentFileLocation" value="Compatibility" />
   <preference name="android-build-tool" value="gradle" />
 
