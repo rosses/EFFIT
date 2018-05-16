@@ -49,7 +49,7 @@ document.addEventListener('deviceready', function() {
   navigator.splashscreen.hide();
 
   Keyboard.hideFormAccessoryBar(true);
-  Keyboard.disableScrollingInShrinkView(true);
+  Keyboard.disableScrollingInShrinkView(false);
   Keyboard.shrinkView(true);
 
   //pictureSource = navigator.camera.PictureSourceType;
@@ -1937,5 +1937,3 @@ function oneClickFalla() {
 window.addEventListener('message',function(event) {
 	eval('('+event.data+')();');
 },false);
-
-

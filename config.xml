@@ -30,14 +30,13 @@
 
   <preference name="StatusBarOverlaysWebView" value="true" />
   <preference name="StatusBarStyle" value="lightcontent" />
-  <preference name="KeyboardDisplayRequiresUserAction" value="false" />
-
+  <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize" />
   <preference name="AndroidPersistentFileLocation" value="Compatibility" />
   <preference name="android-build-tool" value="gradle" />
 
   <preference name="exit-on-suspend" value="false"/>
   <preference name="KeyboardShrinksView" value="true" />
-  <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize" />
+
 
   <plugin name="cordova-plugin-console"/>
   <plugin name="cordova-plugin-device"/>
