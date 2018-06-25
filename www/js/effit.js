@@ -709,6 +709,11 @@ function autologinUsuario() {
 					feedbackControllerGo();
 					onDeviceReadyPush(); 
 				});
+
+	            if (cordova.platformId == "ios") {
+		            // fix cover fit
+		            $("#sys_foot").css("bottom","20px");
+	            }
 			});
 		}
 		else {
@@ -820,10 +825,6 @@ $(document).ready(function () {
 		//console.log('focus.out buscador evento');
 	});
 
-	if (cordova.platformId == "ios") {
-		// fix cover fit
-		$("#sys_foot").css("bottom","20px");
-	}
 
 });
 $(document).on("tap",".facebookfriend",function() {
