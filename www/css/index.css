@@ -1025,7 +1025,7 @@ ul { list-style: none; margin:0; padding:0; }
 #feed i.activo {
     color: #ff9b0a;
 }
-#sys_load,#sys_load3 {
+#emp_load,#sys_load,#sys_load3 {
     position: absolute;    
     top: 0;
     left: 0;

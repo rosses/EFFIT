@@ -1689,26 +1689,26 @@ function readQR() {
    if ($("#myonoffswitch").is(":checked")) {
 	if (cordova.platformId == "ios") { window.plugins.flashlight.switchOn(); }
    }
-   $("#load_sys").show(); // prevent double tap
+   $("#emp_load").show(); // prevent double tap
    cordova.plugins.barcodeScanner.scan(
       function (result) {
-      	$("#load_sys").hide();
+      	$("#emp_load").hide();
       	if (cordova.platformId == "ios") { window.plugins.flashlight.switchOff(); }
       	if (result.cancelled==1) {
       		//navigator.notification.alert("Error: "+error, function(){}, "Error general");
       	}
       	else {
       		if (result.format == "QR_CODE") {
-      			$("#load_sys").show();
+      			$("#emp_load").show();
       			$("#empleado_resumen").hide();
       			$("#empleado_resultado").html('').show();
       			$.post(ws+"a=leerQR", { qra: result.text, id_emp: emp_id }, function(data) {
       				$("#empleado_resultado").html(data.html);
-      				$("#load_sys").hide();
+      				$("#emp_load").hide();
       				$("#leer_qr").hide();
       				// limpiar a los 5 segundos la pantalla...
       				//timerEmpleado = setTimeout("limpiarEmpleado();",5000);
-      			},"json").fail(function() { out(); $("#load_sys").hide(); });	
+      			},"json").fail(function() { out(); $("#emp_load").hide(); });	
       		}
       		else {
 
@@ -1721,7 +1721,7 @@ function readQR() {
       	}
       }, 
       function (error) {
-      	$("#load_sys").hide();
+      	$("#emp_load").hide();
       	if (cordova.platformId == "ios") { window.plugins.flashlight.switchOff(); }
       	navigator.notification.alert("Error: "+error, function(){}, "Error general");
       },
