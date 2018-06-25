@@ -50,6 +50,7 @@ document.addEventListener('deviceready', function() {
   Keyboard.hideFormAccessoryBar(false);
   Keyboard.disableScrollingInShrinkView(true);
   Keyboard.shrinkView(true);
+  StatusBar.backgroundColorByName("black");
   //pictureSource = navigator.camera.PictureSourceType;
   //destinationType = navigator.camera.DestinationType;
 });
@@ -818,6 +819,11 @@ $(document).ready(function () {
 
 		//console.log('focus.out buscador evento');
 	});
+
+	if (cordova.platformId == "ios") {
+		// fix cover fit
+		$("#sys_foot").css("bottom","20px");
+	}
 
 });
 $(document).on("tap",".facebookfriend",function() {
