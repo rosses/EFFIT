@@ -1,4 +1,4 @@
-  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.effit.app" version="2.3.5">
+  <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.effit.app" version="2.3.6">
   <name>EFFIT</name>
   <description>Con EFFIT, olvida el dinero en tus eventos. Paga todo con tu celular.</description>
   <author href="http://www.effitapp.com" email="effit@effitapp.com">EFFIT</author>
@@ -251,13 +251,16 @@
     <config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription" mode="replace">
         <string>Esta app necesita acceso a tu ubicación (en uso) para localizar tus eventos</string>
     </config-file>
-    <config-file target="*-Info.plist" parent="NSCameraUsageDescription" mode="replace">
-       <string>Esta app necesita acceso a tu camara para leer QR</string>
-    </config-file>
-    <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription" mode="replace">
-       <string>Esta app necesita acceso a tu galeria para actualizar tu perfil</string>
-    </config-file>
   </platform> 
+
+
+
+  <config-file platform="ios" parent="NSCameraUsageDescription" mode="replace">  
+    <string>Esta app necesita acceso a tu camara para leer QR</string> 
+  </config-file>
+  <config-file platform="ios" parent="NSPhotoLibraryUsageDescription" mode="replace">  
+    <string>Esta app necesita acceso a tu galeria para actualizar tu perfil</string> 
+  </config-file>
 
   <plugin name="cordova-plugin-network-information"/>
   <!-- for iOS -->
