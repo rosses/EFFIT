@@ -1685,15 +1685,16 @@ function out() {
 }
 
 function readQR() {
+   console.log('readQR listener');
    if ($("#myonoffswitch").is(":checked")) {
-	window.plugins.flashlight.switchOn(); 
+	//window.plugins.flashlight.switchOn(); 
    }
 	$("#empleado_resumen").show();
 	$("#empleado_resultado").hide();
 	$("#leer_qr").show();
    cordova.plugins.barcodeScanner.scan(
       function (result) {
-      	window.plugins.flashlight.switchOff(); 
+      	//window.plugins.flashlight.switchOff(); 
       	if (result.cancelled==1) {
       		//navigator.notification.alert("Error: "+error, function(){}, "Error general");
       	}
@@ -1721,7 +1722,7 @@ function readQR() {
       	}
       }, 
       function (error) {
-      	window.plugins.flashlight.switchOff(); 
+      	//window.plugins.flashlight.switchOff(); 
       	navigator.notification.alert("Error: "+error, function(){}, "Error general");
       },
       {
