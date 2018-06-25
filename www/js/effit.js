@@ -1687,14 +1687,13 @@ function out() {
 function readQR() {
    console.log('readQR listener');
    if ($("#myonoffswitch").is(":checked")) {
-	//window.plugins.flashlight.switchOn(); 
+	if (cordova.platformId == "ios") { window.plugins.flashlight.switchOn(); }
    }
-	$("#empleado_resumen").show();
-	$("#empleado_resultado").hide();
-	$("#leer_qr").show();
+   $("#load_sys").show(); // prevent double tap
    cordova.plugins.barcodeScanner.scan(
       function (result) {
-      	//window.plugins.flashlight.switchOff(); 
+      	$("#load_sys").hide();
+      	if (cordova.platformId == "ios") { window.plugins.flashlight.switchOff(); }
       	if (result.cancelled==1) {
       		//navigator.notification.alert("Error: "+error, function(){}, "Error general");
       	}
@@ -1722,7 +1721,8 @@ function readQR() {
       	}
       }, 
       function (error) {
-      	//window.plugins.flashlight.switchOff(); 
+      	$("#load_sys").hide();
+      	if (cordova.platformId == "ios") { window.plugins.flashlight.switchOff(); }
       	navigator.notification.alert("Error: "+error, function(){}, "Error general");
       },
       {
@@ -1730,6 +1730,9 @@ function readQR() {
           torchOn: ($("#myonoffswitch").is(":checked") ? true : false) // Android, launch with the torch switched on (if available)
       }
    );
+   $("#empleado_resumen").show();
+   $("#empleado_resultado").hide();
+   $("#leer_qr").show();
 }
 function limpiarEmpleado() {
 	$("#empleado_resultado").html('').hide();
