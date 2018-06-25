@@ -234,7 +234,7 @@
     </config-file>
     <config-file parent="CFBundleDevelopmentRegion" target="*-Info.plist" mode="replace">
         <array>
-            <string>en-CL</string>
+            <string>es-ES</string>
         </array>
     </config-file>
     <config-file parent="CFBundleLocalizations" target="*-Info.plist" mode="replace">
@@ -242,19 +242,19 @@
             <string>es</string>
         </array>
     </config-file>
-    <config-file target="*-Info.plist" parent="NSLocationUsageDescription">
+    <config-file target="*-Info.plist" parent="NSLocationUsageDescription" mode="replace">
         <string>Esta app necesita acceso a tu ubicación para localizar tus eventos</string>
     </config-file>
-    <config-file target="*-Info.plist" parent="NSLocationAlwaysUsageDescription">
+    <config-file target="*-Info.plist" parent="NSLocationAlwaysUsageDescription" mode="replace">
         <string>Esta app necesita acceso a tu ubicación (siempre) para localizar tus eventos</string>
     </config-file>
-    <config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
+    <config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription" mode="replace">
         <string>Esta app necesita acceso a tu ubicación (en uso) para localizar tus eventos</string>
     </config-file>
-    <config-file target="*-Info.plist" parent="NSCameraUsageDescription" overwrite="true">
+    <config-file target="*-Info.plist" parent="NSCameraUsageDescription" mode="replace">
        <string>Esta app necesita acceso a tu camara para leer QR</string>
     </config-file>
-    <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription" overwrite="true">
+    <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription" mode="replace">
        <string>Esta app necesita acceso a tu galeria para actualizar tu perfil</string>
     </config-file>
   </platform> 
