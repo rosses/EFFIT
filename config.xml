@@ -71,9 +71,9 @@
   </plugin>
   <plugin name="cordova-plugin-splashscreen" />
   <plugin name="cordova-plugin-media-capture" source="npm" spec="*">
-    <variable name="CAMERA_USAGE_DESCRIPTION" value="App would like to access the camera." />
+    <variable name="CAMERA_USAGE_DESCRIPTION" value="EFFIT Necesita validar QR" />
     <variable name="MICROPHONE_USAGE_DESCRIPTION" value="App would like to access the microphone." />
-    <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="App would like to access the library." />
+    <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="EFFIT quiere acceder a la libreria para actualizar tu perfil" />
   </plugin>
   <!-- ICONOS -->
   <icon src="res/icon.png" />
@@ -243,19 +243,19 @@
         </array>
     </config-file>
     <config-file target="*-Info.plist" parent="NSLocationUsageDescription">
-        <string>Esta app necesita acceso a tu ubicación</string>
+        <string>Esta app necesita acceso a tu ubicación para localizar tus eventos</string>
     </config-file>
     <config-file target="*-Info.plist" parent="NSLocationAlwaysUsageDescription">
-        <string>Esta app necesita acceso a tu ubicación (siempre)</string>
+        <string>Esta app necesita acceso a tu ubicación (siempre) para localizar tus eventos</string>
     </config-file>
     <config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
-        <string>Esta app necesita acceso a tu ubicación (en uso)</string>
+        <string>Esta app necesita acceso a tu ubicación (en uso) para localizar tus eventos</string>
     </config-file>
     <config-file target="*-Info.plist" parent="NSCameraUsageDescription" overwrite="true">
-       <string>Esta app necesita acceso a tu camara</string>
+       <string>Esta app necesita acceso a tu camara para leer QR</string>
     </config-file>
     <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription" overwrite="true">
-       <string>Esta app necesita acceso a tu galeria</string>
+       <string>Esta app necesita acceso a tu galeria para actualizar tu perfil</string>
     </config-file>
   </platform> 
 
